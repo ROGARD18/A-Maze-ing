@@ -7,10 +7,6 @@ class NoArgumentError(Exception):
     pass
 
 
-class DependencyError(Exception):
-    pass
-
-
 class Config(BaseModel):
     width: int = Field(ge=0, le=1000)
     height: int = Field(ge=0, le=1000)
@@ -23,16 +19,16 @@ class Config(BaseModel):
 
     @model_validator(mode='after')
     def check_points(self) -> Self:
-        if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
-            raise ValueError("Error: Entry et Exit are the same points.")
-        
         if not self.output_file.endswith('.txt'):
             raise ValueError("The output file have to be a .txt file.")
         
-        if self.entry_x > self.height or self.entry_y > self.height:
+        if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
+            raise ValueError("Error: Entry et Exit are the same points.")
+        
+        if self.entry_x > self.width or self.entry_y > self.height:
             raise ValueError(f"Error: Entry point is outside the area of the maze.")
         
-        if self.exit_x > self.height or self.exit_y > self.height:
+        if self.exit_x > self.width or self.exit_y > self.height:
             raise ValueError(f"Error: Exit point is outside the area of the maze.")
         
         return self

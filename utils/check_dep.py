@@ -1,3 +1,7 @@
+class DependencyError(Exception):
+    pass
+
+
 def check_dep() -> None:
     try:
         import pydantic
