@@ -1,4 +1,5 @@
 from draw_maze import draw_maze
+import sys
 
 
 def gen_line(line: int, maze: list[list[list[int]]], width: int) -> None:
@@ -97,7 +98,7 @@ def main() -> None:
     #         else:
     #             print(".", end="")
     print()
-    draw_maze("maze.txt")
+    draw_maze(sys.argv[1])
 
 
 if __name__ == "__main__":
