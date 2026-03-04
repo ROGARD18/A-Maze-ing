@@ -61,43 +61,43 @@ def main() -> None:
     for i in range(height-2):
         gen_line(i, maze, width)
     gen_last_line(height, width, maze)
-    for lines in maze:
-        print("")
-        for cell in lines:
-            if cell == [0, 0, 0, 1]:
-                print("1", end="")
-            elif cell == [0, 0, 1, 0]:
-                print("2", end="")
-            elif cell == [0, 0, 1, 1]:
-                print("3", end="")
-            elif cell == [0, 1, 0, 1]:
-                print("4", end="")
-            elif cell == [0, 1, 0, 1]:
-                print("5", end="")
-            elif cell == [0, 1, 1, 0]:
-                print("6", end="")
-            elif cell == [0, 1, 1, 1]:
-                print("7", end="")
-            elif cell == [1, 0, 0, 0]:
-                print("8", end="")
-            elif cell == [1, 0, 0, 1]:
-                print("9", end="")
-            elif cell == [1, 0, 1, 0]:
-                print("A", end="")
-            elif cell == [1, 0, 1, 1]:
-                print("B", end="")
-            elif cell == [1, 1, 0, 0]:
-                print("C", end="")
-            elif cell == [1, 1, 0, 1]:
-                print("D", end="")
-            elif cell == [1, 1, 1, 0]:
-                print("E", end="")
-            elif cell == [1, 1, 1, 1]:
-                print("F", end="")
-            else:
-                print(".", end="")
+    # for lines in maze:
+    #     print("")
+    #     for cell in lines:
+    #         if cell == [0, 0, 0, 1]:
+    #             print("1", end="")
+    #         elif cell == [0, 0, 1, 0]:
+    #             print("2", end="")
+    #         elif cell == [0, 0, 1, 1]:
+    #             print("3", end="")
+    #         elif cell == [0, 1, 0, 1]:
+    #             print("4", end="")
+    #         elif cell == [0, 1, 0, 1]:
+    #             print("5", end="")
+    #         elif cell == [0, 1, 1, 0]:
+    #             print("6", end="")
+    #         elif cell == [0, 1, 1, 1]:
+    #             print("7", end="")
+    #         elif cell == [1, 0, 0, 0]:
+    #             print("8", end="")
+    #         elif cell == [1, 0, 0, 1]:
+    #             print("9", end="")
+    #         elif cell == [1, 0, 1, 0]:
+    #             print("A", end="")
+    #         elif cell == [1, 0, 1, 1]:
+    #             print("B", end="")
+    #         elif cell == [1, 1, 0, 0]:
+    #             print("C", end="")
+    #         elif cell == [1, 1, 0, 1]:
+    #             print("D", end="")
+    #         elif cell == [1, 1, 1, 0]:
+    #             print("E", end="")
+    #         elif cell == [1, 1, 1, 1]:
+    #             print("F", end="")
+    #         else:
+    #             print(".", end="")
     print()
-    draw_maze(maze)
+    draw_maze("maze.txt")
 
 
 if __name__ == "__main__":

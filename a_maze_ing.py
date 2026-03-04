@@ -15,7 +15,7 @@ def main() -> None:
     except Exception as e:
         print(e)
         print("Steps:\n-make install\n-make run")
-    
+
     print("Initialazing the maze")
     if not config:
         raise ValueError("oui")
@@ -28,6 +28,7 @@ def main() -> None:
         exit_y=config.exit_y,
         output_file=config.output_file
     )
+
 
 if __name__ == "__main__":
     main()
