@@ -1,42 +1,12 @@
-from pydantic import BaseModel, Field, ValidationError, model_validator
-from typing_extensions import Self
+from pydantic import ValidationError
 import sys
+from utils.models import NoArgumentError, Config
+from typing import Any
 
 
-class NoArgumentError(Exception):
-    pass
+def parsing() -> Config:
 
-
-class Config(BaseModel):
-    width: int = Field(ge=0, le=1000)
-    height: int = Field(ge=0, le=1000)
-    entry_x: int = Field(ge=0, le=1000)
-    entry_y: int = Field(ge=0, le=1000)
-    exit_x: int = Field(ge=0, le=1000)
-    exit_y: int = Field(ge=0, le=1000)
-    output_file: str = Field(min_length=5, max_length=20)
-    perfect: bool = Field(default=False)
-
-    @model_validator(mode='after')
-    def check_points(self) -> Self:
-        if not self.output_file.endswith('.txt'):
-            raise ValueError("The output file have to be a .txt file.")
-        
-        if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
-            raise ValueError("Error: Entry et Exit are the same points.")
-        
-        if self.entry_x > self.width or self.entry_y > self.height:
-            raise ValueError(f"Error: Entry point is outside the area of the maze.")
-        
-        if self.exit_x > self.width or self.exit_y > self.height:
-            raise ValueError(f"Error: Exit point is outside the area of the maze.")
-        
-        return self
-
-
-def parsing() -> None:
-
-    config_dict = {}
+    config_dict: dict[str, Any] = {}
 
     if (len(sys.argv) < 2):
         raise NoArgumentError("Error: try with config.txt to refere some"
@@ -71,8 +41,7 @@ def parsing() -> None:
             output_file=config_dict['OUTPUT_FILE'],
             perfect=config_dict['PERFECT']
         )
-        print(config_obj.width)
     except ValidationError as e:
         print(e.errors()[0]['msg'])
         raise Exception
-    print(config_dict)
+    return config_obj

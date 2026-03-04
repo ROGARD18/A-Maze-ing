@@ -1,19 +1,33 @@
-from utils import check_dep
+from utils.check_dep import check_dep
+from utils.parsing import parsing
+from utils.models import Config, Maze
 
 
 def main() -> None:
+    config: Config | None = None
     try:
+        print("Checking if all dependencies are installed...")
         check_dep()
-        print("--------------------------------------------------check_dep no crash")
-        from utils import parsing
-        parsing()
-        print("--------------------------------------------------parsing no crash")
+        print("Deps well installed.\n")
+        print("Parsing config file...")
+        config = parsing()
+        print("Config acquired")
     except Exception as e:
         print(e)
         print("Steps:\n-make install\n-make run")
-    print ("No crash")
-
-import pydantic
+    
+    print("Initialazing the maze")
+    if not config:
+        raise ValueError("oui")
+    maze = Maze(
+        width=config.width,
+        height=config.height,
+        entry_x=config.entry_x,
+        entry_y=config.entry_y,
+        exit_x=config.exit_x,
+        exit_y=config.exit_y,
+        output_file=config.output_file
+    )
 
 if __name__ == "__main__":
     main()

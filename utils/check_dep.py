@@ -4,6 +4,6 @@ class DependencyError(Exception):
 
 def check_dep() -> None:
     try:
-        import pydantic
+        import pydantic  # type: ignore 
     except Exception as e:
         raise DependencyError(f"Error miss dependency: {e}")
