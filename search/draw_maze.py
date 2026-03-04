@@ -1,4 +1,4 @@
-def draw_maze(maze):
+def draw_maze(maze: list[list[list[int]]]):
     """
     Dessine un labyrinthe fluide en utilisant les connexions entre cellules.
     Format cell : [Haut, Gauche, Bas, Droite] (1 = mur, 0 = vide)

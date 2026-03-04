@@ -1,13 +1,13 @@
 from draw_maze import draw_maze
 
 
-def gen_line(line: int, maze: list[list[list]], width: int) -> None:
+def gen_line(line: int, maze: list[list[list[int]]], width: int) -> None:
 
-    line_cell: list[list] = []
+    line_cell: list[list[int]] = []
 
     for i in range(width):
 
-        cell: list = [0, 0, 0, 0]
+        cell: list[int] = [0, 0, 0, 0]
         if i == 0:
             cell[3] = 1
         else:
@@ -19,12 +19,12 @@ def gen_line(line: int, maze: list[list[list]], width: int) -> None:
     maze.append(line_cell)
 
 
-def gen_first_line(width: int, maze: list[list[list]]) -> None:
+def gen_first_line(width: int, maze: list[list[list[int]]]) -> None:
 
-    line_cell: list[list] = []
+    line_cell: list[list[int]] = []
 
     for i in range(width):
-        cell: list = [1, 0, 0, 0]
+        cell: list[int] = [1, 0, 0, 0]
         if i == 0:
             cell[3] = 1
         elif i == width - 1:
@@ -35,12 +35,12 @@ def gen_first_line(width: int, maze: list[list[list]]) -> None:
     maze.append(line_cell)
 
 
-def gen_last_line(height: int, width: int, maze: list[list[list]]) -> None:
+def gen_last_line(height: int, width: int, maze: list[list[list[int]]]) -> None:
 
-    line_cell: list[list] = []
+    line_cell: list[list[int]] = []
 
     for i in range(width):
-        cell: list = [0, 0, 1, 0]
+        cell: list[int] = [0, 0, 1, 0]
         if i == 0:
             cell[3] = 1
         elif i == width - 1:
@@ -56,7 +56,7 @@ def gen_last_line(height: int, width: int, maze: list[list[list]]) -> None:
 def main() -> None:
     width: int = 4
     height: int = 4
-    maze: list[list[list]] = []
+    maze: list[list[list[int]]] = []
     gen_first_line(width, maze)
     for i in range(height-2):
         gen_line(i, maze, width)
