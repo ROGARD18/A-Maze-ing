@@ -26,11 +26,12 @@ class Config(BaseModel):
 
         if self.entry_x > self.width or self.entry_y > self.height:
             raise ValidationError(
-                f"Error: Entry point is outside the area of the maze."
+                "Error: Entry point is outside the area of the maze."
             )
 
         if self.exit_x > self.width or self.exit_y > self.height:
-            raise ValidationError(f"Error: Exit point is outside the area of the maze.")
+            raise ValidationError("Error: Exit point is outside the area of"
+                                  "the maze.")
 
         return self
 
