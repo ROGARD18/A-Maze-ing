@@ -1,21 +1,10 @@
 def make_first_maze_line(line: str) -> list[str]:
     lines_first_cell: list[str] = []
-    line_char = " "
-    col_char = "▄"
+    line_char = "▄"
+    col_char = "█"
 
     line_res = col_char
-    for cell in line:
-        if cell in ('1', '2', '3', '8', '9', 'A', 'B'):
-            line_res += '    '
-            line_res += col_char if cell in ('9', 'A', 'B') else ' '
-        else:
-            for _ in range(4):
-                line_res += line_char
-            if cell in ('C', 'D', 'E', 'F'):
-                line_res += col_char
-            else:
-                line_res += line_char
-    lines_first_cell.append(line_res)
+    lines_first_cell.append("")
 
     return lines_first_cell
 
@@ -69,8 +58,8 @@ def draw_maze(file_name: str) -> None:
 
     for line in lines:
         index += 1
-        if index > 0:
-            previous = lines[index - 1]
+        if index > 1:
+            previous = lines[index - 2]
         else:
             previous = None
         print(make_line(line, previous))
