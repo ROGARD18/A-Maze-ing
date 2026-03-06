@@ -7,6 +7,7 @@ from typing import Any
 def parsing() -> Config:
 
     config_dict: dict[str, Any] = {}
+    is_algo_present: bool = False
 
     if (len(sys.argv) < 2):
         raise NoArgumentError("Error: try with config.txt to refere some"
@@ -29,6 +30,8 @@ def parsing() -> Config:
             config_dict.update({'EXIT_Y': y})
         else:
             key, value = line.split('=')
+            if (key == 'ALGORITHM'):
+                is_algo_present = True
             config_dict.update({key: value})
     try:
         config_obj = Config(
@@ -39,9 +42,10 @@ def parsing() -> Config:
             exit_x=config_dict['EXIT_X'],
             exit_y=config_dict['EXIT_Y'],
             output_file=config_dict['OUTPUT_FILE'],
-            perfect=config_dict['PERFECT']
+            perfect=config_dict['PERFECT'],
         )
+        if is_algo_present:
+            config_obj.algorithm = config_dict['ALGORITHM']
     except ValidationError as e:
-        print(e.errors()[0]['msg'])
-        raise Exception
+        raise e
     return config_obj

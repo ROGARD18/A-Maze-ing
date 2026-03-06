@@ -14,7 +14,7 @@ class Colors:
     bold = "\u001b[1m"
     inverse = "\u001b[7m"
     end = "\u001b[0m"
-    opacity = "\u001b[-10m"
+    # opacity = "\u001b[-10m"
     faint = "\u001b[2m"
 
 
@@ -80,7 +80,7 @@ def make_cell_middle_lines(line: str, color: str, color_end: str) -> str:
     return line_res
 
 
-def make_last_line(line: list) -> str:
+def make_last_line(line: list[str]) -> str:
     line_res: str = '█'
 
     for cell in line:
@@ -95,7 +95,7 @@ def make_last_line(line: list) -> str:
 def draw_maze(file_name: str) -> None:
     from random import choice
     t = Colors
-    colors_list: list = [t.yellow, t.red, t.green, t.blue, t.cyan,
+    colors_list: list[str] = [t.yellow, t.red, t.green, t.blue, t.cyan,
                          t.magenta, t.white]
     color: str = choice(colors_list)
     color_end: str = t.end

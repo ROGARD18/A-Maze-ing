@@ -15,6 +15,7 @@ class Config(BaseModel):
     exit_y: int = Field(ge=0, le=1000)
     output_file: str = Field(min_length=5, max_length=20)
     perfect: bool = Field(default=False)
+    algorithm: str | None = Field(default="kruskal")
 
     @model_validator(mode="after")
     def check_points(self) -> Self:
@@ -35,6 +36,13 @@ class Config(BaseModel):
 
         return self
 
+    @model_validator(mode="after")
+    def is_valid_algorithm(self) -> Self:
+        valid_algo: list[str] = ["kruskal", "Prism", "Wilson"]
+        if not self.algorithm in valid_algo:
+            raise ValidationError(f"Please chose one of the following algorithm "
+                                  f"{valid_algo} or let it empty")
+        return self
 
 class Cell(BaseModel):
     x: int = Field(ge=0)
