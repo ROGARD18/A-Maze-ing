@@ -2,9 +2,10 @@ from utils.check_dep import check_dep
 from utils.parsing import parsing
 from utils.models import Config, Maze
 from pydantic import ValidationError
+from utils.draw_maze_file import draw_maze
+from algo. kruskal_algo import kruskal
+import sys
 
-# def get_instructions() -> str;
-    
 
 def main() -> None:
     config: Config | None = None
@@ -26,21 +27,10 @@ def main() -> None:
     except (ValidationError, KeyError) as e:
         print(f"{type(e).__name__}: {e}")
         return
-    try:
-        print("Initialazing the maze")
-        maze = Maze(
-            width=config.width,
-            height=config.height,
-            entry_x=config.entry_x,
-            entry_y=config.entry_y,
-            exit_x=config.exit_x,
-            exit_y=config.exit_y,
-            output_file=config.output_file,
-            algorithm=config.algorithm
-        )
-        print(maze)
-    except Exception as e:
-        print(e)
+
+    output_file: str = kruskal(config)
+    draw_maze("maze2.txt")
+    # draw_maze(output_file)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator
-from typing_extensions import Self, Optional
+from typing_extensions import Self
 
 
 class NoArgumentError(Exception):
@@ -48,7 +48,7 @@ class Config(BaseModel):
 class Cell(BaseModel):
     west: int = Field(ge=0, le=1)
     south: int = Field(ge=0, le=1)
-    est: int = Field(ge=0, le=1)
+    east: int = Field(ge=0, le=1)
     north: int = Field(ge=0, le=1)
 
 

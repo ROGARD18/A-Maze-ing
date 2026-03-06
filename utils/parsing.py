@@ -3,7 +3,7 @@ from utils.models import NoArgumentError, Config
 from typing import Any
 
 
-def parsing() -> Config | None:
+def parsing() -> Config:
 
     config_dict: dict[str, Any] = {}
     is_algo_present: bool = False
@@ -45,6 +45,5 @@ def parsing() -> Config | None:
         perfect=config_dict['PERFECT'],
         algorithm=algo
     )
-    
 
     return config_obj
