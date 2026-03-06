@@ -50,6 +50,7 @@ class Cell(BaseModel):
     south: int = Field(ge=0, le=1)
     east: int = Field(ge=0, le=1)
     north: int = Field(ge=0, le=1)
+    set_id: int
 
 
 class Maze():
