@@ -28,9 +28,9 @@ def main() -> None:
         print(f"{type(e).__name__}: {e}")
         return
 
-    output_file: str = kruskal(config)
     # draw_maze("maze2.txt")
-    draw_maze(output_file)
+    draw_maze(config.output_file)
+    print("fin")
 
 
 if __name__ == "__main__":

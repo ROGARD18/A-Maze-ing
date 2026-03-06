@@ -24,4 +24,3 @@ def gen_full_maze(config: Config) -> Maze:
 def kruskal(config: Config) -> None:
     maze: Maze = gen_full_maze(config)
     create_output_file(maze.cells, config.output_file)
-
