@@ -18,7 +18,7 @@ class Colors:
     faint = "\u001b[2m"
 
 
-def make_first_maze_line(line: str) -> list[str]:
+def make_first_maze_line(line: str, color: str, color_end: str) -> list[str]:
     """
     Use to create the first cell line of maze.
     Args:
@@ -36,9 +36,12 @@ def make_first_maze_line(line: str) -> list[str]:
     for _ in range(2):
         line_res: str = '█'
         for cell in line:
-            line_res += '    '
+            if cell == 'F':
+                line_res += (f"{color}{Colors.faint}████{color_end}")
+            else:
+                line_res += '    '
             if cell in cell_with_E:
-                line_res += '█'
+                line_res += f'{color}█'
             else:
                 line_res += ' '
         lines_first_cell.append(line_res)
@@ -111,7 +114,7 @@ def draw_maze(file_name: str) -> None:
     lines = content.split('\n')
 
     # print first line of maze
-    for line in make_first_maze_line(lines[0]):
+    for line in make_first_maze_line(lines[0], color, color_end):
         print(f"{color}{line}{color_end}")
     first_line: str = lines[0]
     lines.remove(lines[0])

@@ -1,12 +1,12 @@
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from utils.models import Config
-from utils.draw_42 import draw_42
+from utils.models import Config, Cell
+from utils.make_center_42 import make_42
 from utils.create_output_file import create_output_file
 from utils.init_maze import init_maze
 from pydantic import ValidationError
 from utils.draw_maze_file import draw_maze
-# from algo. kruskal_algo import kruskal
+from algo. kruskal_algo import kruskal
 
 
 def main() -> None:
@@ -17,6 +17,7 @@ def main() -> None:
         print("Deps well installed.\n")
     except Exception as e:
         print(e)
+        print("line 20")
         return
     try:
         print("Parsing config file...")
@@ -30,10 +31,12 @@ def main() -> None:
         return
     try:
         maze = init_maze(config=config)
-        draw_42(config, maze)
+        cells_42: list[Cell] = make_42(config, maze)
+        maze = kruskal(config=config, maze=maze, cells_42=cells_42)
         create_output_file(maze.cells, config.output_file)
     except Exception as e:
         print(e)
+        print("line 38")
         return
     # draw_maze("maze2.txt")
     draw_maze(config.output_file)

@@ -4,14 +4,14 @@ from utils.models import Config, Maze, Cell
 
 def forty_two_cell(cells: list[Cell]) -> None:
     for cell in cells:
-        cell.east = 1
-        cell.west = 1
         cell.south = 1
+        cell.west = 1
+        cell.east = 1
         cell.north = 1
         cell.set_id = -42
 
 
-def draw_42(config: Config, maze: Maze):
+def make_42(config: Config, maze: Maze) -> list[Cell]:
     width = config.width
     height = config.height
     list_42s: list[Cell] = []
@@ -43,3 +43,5 @@ def draw_42(config: Config, maze: Maze):
     list_42s.append(maze.cells[height // 2 - 2][width // 2 + 1])
     list_42s.append(maze.cells[height // 2 - 2][width // 2 + 2])
     forty_two_cell(list_42s)
+
+    return list_42s
