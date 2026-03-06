@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator
-from typing_extensions import Self
+from typing_extensions import Self, Optional
 
 
 class NoArgumentError(Exception):
@@ -40,17 +40,19 @@ class Config(BaseModel):
     def is_valid_algorithm(self) -> Self:
         valid_algo: list[str] = ["kruskal", "prism", "wilson"]
         if not self.algorithm in valid_algo:
-            raise ValidationError(f"Please chose one of the following algorithm "
-                                  f"{valid_algo} or delete the key")
+            raise ValidationError("Please chose one of the following"
+                                  f"algorithm {valid_algo} or delete the key")
         return self
 
+
 class Cell(BaseModel):
-    x: int = Field(ge=0)
-    y: int = Field(ge=0)
-    walls: str = Field(min_length=4, max_length=4)
+    x: Optional[int] = Field(ge=0)
+    y: Optional[int] = Field(ge=0)
+    walls: dict = Field(min_length=4, max_length=4)
 
 
-class Maze(Config, BaseModel):
-    entry: Cell | None = Field(default=None)
-    exit: Cell | None = Field(default=None)
-    cells: list[Cell] | None = Field(default=None)
+class Maze():
+    def __init__(self, entry_cell: Cell, exit_cell: Cell) -> None:
+        self.entry: Cell = entry_cell
+        self.entry: Cell = exit_cell
+        cells: list[Cell] = []
