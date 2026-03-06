@@ -2,7 +2,7 @@ from utils.models import Config, Maze, Cell
 from utils.create_output_file import create_output_file
 
 
-def gen_full_maze(config: Config) -> Maze:
+def init_maze(config: Config) -> Maze:
     height: int = config.height
     width: int = config.width
 
@@ -22,5 +22,5 @@ def gen_full_maze(config: Config) -> Maze:
 
 
 def kruskal(config: Config) -> None:
-    maze: Maze = gen_full_maze(config)
+    maze: Maze = init_maze(config)
     create_output_file(maze.cells, config.output_file)
