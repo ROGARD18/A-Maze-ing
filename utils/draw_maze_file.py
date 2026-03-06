@@ -33,7 +33,7 @@ def make_first_maze_line(line: str) -> list[str]:
         line_res += '▄▄▄▄▄'
     lines_first_cell.append(line_res)
 
-    for i in range(2):
+    for _ in range(2):
         line_res: str = '█'
         for cell in line:
             line_res += '    '
