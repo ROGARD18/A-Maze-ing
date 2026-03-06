@@ -55,4 +55,4 @@ class Maze():
     def __init__(self, entry_cell: Cell, exit_cell: Cell) -> None:
         self.entry: Cell = entry_cell
         self.entry: Cell = exit_cell
-        cells: list[Cell] = []
+        self.cells: list[Cell] = []
