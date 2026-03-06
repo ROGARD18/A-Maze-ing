@@ -96,7 +96,7 @@ def draw_maze(file_name: str) -> None:
     from random import choice
     t = Colors
     colors_list: list[str] = [t.yellow, t.red, t.green, t.blue, t.cyan,
-                         t.magenta, t.white]
+                              t.magenta, t.white]
     color: str = choice(colors_list)
     color_end: str = t.end
 

@@ -20,6 +20,7 @@ def init_kruskal_maze(config: Config) -> Maze:
 
     return maze
 
+
 def forty_two_cell(cells: list[Cell]) -> None:
     for cell in cells:
         cell.east = 1
@@ -28,19 +29,7 @@ def forty_two_cell(cells: list[Cell]) -> None:
         cell.north = 1
         cell.set_id = -42
 
+
 def kruskal(config: Config) -> None:
     maze: Maze = init_kruskal_maze(config)
-    width = config.width
-    height = config.height
     create_output_file(maze.cells, config.output_file)
-    list_42s: list[Cell] = []
-    # The 4 of 42
-    list_42s.append(maze.cells[height // 2][width // 2 - 1])
-    list_42s.append(maze.cells[height // 2][width // 2 - 2])
-    list_42s.append(maze.cells[height // 2][width // 2 - 3])
-    list_42s.append(maze.cells[height // 2 - 1][width // 2 - 3])
-    list_42s.append(maze.cells[height // 2 - 2][width // 2 - 3])
-
-    list_42s.append(maze.cells[height // 2 + 1][width // 2 - 1])
-    list_42s.append(maze.cells[height // 2 + 2][width // 2 - 1])
-    

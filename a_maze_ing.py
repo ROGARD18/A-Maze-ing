@@ -1,13 +1,12 @@
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from utils.models import Config, Maze
+from utils.models import Config
 from utils.draw_42 import draw_42
 from utils.create_output_file import create_output_file
 from utils.init_maze import init_maze
 from pydantic import ValidationError
 from utils.draw_maze_file import draw_maze
-from algo. kruskal_algo import kruskal
-import sys
+# from algo. kruskal_algo import kruskal
 
 
 def main() -> None:

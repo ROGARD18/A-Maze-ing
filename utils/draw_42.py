@@ -1,6 +1,7 @@
 from utils.models import Config, Maze, Cell
 # from utils.create_output_file import create_output_file
 
+
 def forty_two_cell(cells: list[Cell]) -> None:
     for cell in cells:
         cell.east = 1
@@ -8,6 +9,7 @@ def forty_two_cell(cells: list[Cell]) -> None:
         cell.south = 1
         cell.north = 1
         cell.set_id = -42
+
 
 def draw_42(config: Config, maze: Maze):
     width = config.width

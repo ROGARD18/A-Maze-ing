@@ -39,7 +39,7 @@ class Config(BaseModel):
     @model_validator(mode="after")
     def is_valid_algorithm(self) -> Self:
         valid_algo: list[str] = ["kruskal", "prism", "wilson"]
-        if not self.algorithm in valid_algo:
+        if not (self.algorithm in valid_algo):
             raise ValidationError("Please chose one of the following"
                                   f"algorithm {valid_algo} or delete the key")
         return self
