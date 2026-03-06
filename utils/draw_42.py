@@ -13,6 +13,7 @@ def draw_42(config: Config, maze: Maze):
     width = config.width
     height = config.height
     list_42s: list[Cell] = []
+
     # The 4 of 42
     list_42s.append(maze.cells[height // 2][width // 2 - 1])
     list_42s.append(maze.cells[height // 2][width // 2 - 2])
@@ -22,4 +23,21 @@ def draw_42(config: Config, maze: Maze):
 
     list_42s.append(maze.cells[height // 2 + 1][width // 2 - 1])
     list_42s.append(maze.cells[height // 2 + 2][width // 2 - 1])
+
+    list_42s.append(maze.cells[height // 2][width // 2 + 1])
+    list_42s.append(maze.cells[height // 2][width // 2 + 2])
+    list_42s.append(maze.cells[height // 2][width // 2 + 3])
+
+    list_42s.append(maze.cells[height // 2 + 1][width // 2 + 1])
+    list_42s.append(maze.cells[height // 2 + 2][width // 2 + 1])
+
+    list_42s.append(maze.cells[height // 2 + 2][width // 2 + 1])
+    list_42s.append(maze.cells[height // 2 + 2][width // 2 + 2])
+    list_42s.append(maze.cells[height // 2 + 2][width // 2 + 3])
+
+    list_42s.append(maze.cells[height // 2 - 1][width // 2 + 3])
+    list_42s.append(maze.cells[height // 2 - 2][width // 2 + 3])
+
+    list_42s.append(maze.cells[height // 2 - 2][width // 2 + 1])
+    list_42s.append(maze.cells[height // 2 - 2][width // 2 + 2])
     forty_two_cell(list_42s)
