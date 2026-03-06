@@ -103,3 +103,6 @@ Algos:
         avoir qu'une seule connexion avec toutes les autres cellules pour que le labyrinthe soit considéré comme « parfait », ce qui explique pourquoi les cellules
         ne sont reliées que si leurs ensembles respectifs sont différents. Un seul chemin entre des ensembles précédemment déconnectés signifie un seul chemin
         d'une cellule à une autre. C'est plutôt cool.
+
+
+central point = cells[height / 2][width / 2]

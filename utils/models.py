@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator
-from typing_extensions import Self, Optional
+from typing_extensions import Self
 
 
 class NoArgumentError(Exception):
@@ -7,8 +7,8 @@ class NoArgumentError(Exception):
 
 
 class Config(BaseModel):
-    width: int = Field(ge=0, le=1000)
-    height: int = Field(ge=0, le=1000)
+    width: int = Field(ge=9, le=1000)
+    height: int = Field(ge=7, le=1000)
     entry_x: int = Field(ge=0, le=1000)
     entry_y: int = Field(ge=0, le=1000)
     exit_x: int = Field(ge=0, le=1000)
@@ -46,14 +46,14 @@ class Config(BaseModel):
 
 
 class Cell(BaseModel):
-    west: int = Field(ge=0, le=1)
-    south: int = Field(ge=0, le=1)
-    east: int = Field(ge=0, le=1)
-    north: int = Field(ge=0, le=1)
+    west: int
+    south: int
+    east: int
+    north: int
     set_id: int = Field(ge=0)
 
 
 class Maze(BaseModel):
-    entry_p: Optional[Cell] = Field(default=None)
-    exit_p: Optional[Cell] = Field(default=None)
-    cells: list[list[Cell]] = Field(default=None)
+    entry_p: Cell | None = Field(default=None)
+    exit_p: Cell | None = Field(default=None)
+    cells: list[list[Cell]]
