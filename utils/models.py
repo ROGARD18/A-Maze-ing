@@ -46,13 +46,14 @@ class Config(BaseModel):
 
 
 class Cell(BaseModel):
-    x: Optional[int] = Field(ge=0)
-    y: Optional[int] = Field(ge=0)
-    walls: dict = Field(min_length=4, max_length=4)
+    west: int = Field(ge=0, le=1)
+    south: int = Field(ge=0, le=1)
+    est: int = Field(ge=0, le=1)
+    north: int = Field(ge=0, le=1)
 
 
 class Maze():
     def __init__(self, entry_cell: Cell, exit_cell: Cell) -> None:
         self.entry: Cell = entry_cell
         self.entry: Cell = exit_cell
-        self.cells: list[Cell] = []
+        self.cells: list[list[Cell]] = []
