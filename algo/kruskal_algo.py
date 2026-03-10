@@ -87,8 +87,8 @@ def kruskal(config: Config, maze: Maze, cells_42: list[Cell]) -> Maze:
                 cell_one.east = 0
                 cell_two.west = 0
 
-            good_id: str = cell_one.set_id
-            bad_id: str = cell_two.set_id
+            good_id: int = cell_one.set_id
+            bad_id: int = cell_two.set_id
 
             for line in maze.cells:
                 for cell in line:
