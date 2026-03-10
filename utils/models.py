@@ -53,9 +53,9 @@ class Cell(BaseModel):
     north: int
     set_id: int = Field(ge=0)
     in_path: bool = Field(default=False)
+
+
 # types
-
-
 Maze = list[list[Cell]]
 
 

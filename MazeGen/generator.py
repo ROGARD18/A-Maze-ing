@@ -1,7 +1,7 @@
 from utils.models import Config,Maze
 from MazeGen.algo.kruskal_algo import Kruskal
 
-cell_with_N: tuple[str, str, str, str, str, str, str, str,] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
+cell_with_N: tuple[str, str, str, str, str, str, str, str] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
 cell_with_E: tuple[str, str, str, str, str, str, str, str] = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
 
 
