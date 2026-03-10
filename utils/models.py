@@ -53,19 +53,23 @@ class Cell(BaseModel):
     north: int
     set_id: int = Field(ge=0)
     in_path: bool = Field(default=False)
+    y: int
+    x: int
+    is_entry: bool
+    is_exit: bool
 
 
 # types
-Maze = list[list[Cell]]
+TMaze = list[list[Cell]]
 
 
-class Algorithm(ABC):
+class Maze(ABC):
 
     @abstractmethod
-    def generate(self) -> Maze:
+    def generate(self) -> TMaze:
         pass
 
-    def make_42(self, config: Config, maze: Maze) -> list[Cell]:
+    def make_42(self, config: Config, maze: TMaze) -> list[Cell]:
         width = config.width
         height = config.height
         list_42s: list[Cell] = []

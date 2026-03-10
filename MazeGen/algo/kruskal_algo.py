@@ -1,34 +1,44 @@
-from utils.models import Config, Maze, Cell, Algorithm
+from utils.models import Config, TMaze, Cell, Maze
 import random
 
 
-class Kruskal(Algorithm):
+class Kruskal(Maze):
 
     def __init__(self, config: Config) -> None:
         self.config = config
         self.name = "kruskal"
 
-    def init_maze(self) -> Maze:
+    def init_maze(self, config: Config) -> TMaze:
 
         height: int = self.config.height
         width: int = self.config.width
-        maze: Maze = []
+        maze: TMaze = []
         count_id: int = 0
-        for _ in range(height):
+        for i in range(height):
             line: list[Cell] = []
-            for _ in range(width):
-                cell: Cell = Cell(west=1, east=1, south=1,
-                                  north=1, set_id=count_id)
+            for j in range(width):
+                if i == config.entry_y and j == config.entry_x:
+                    cell: Cell = Cell(west=1, east=1, south=1,
+                                  north=1, set_id=count_id,
+                                  y=i, x=j, is_entry=True, is_exit=False)
+                elif i == config.exit_y and j == config.exit_x:
+                    cell: Cell = Cell(west=1, east=1, south=1,
+                                  north=1, set_id=count_id,
+                                  y=i, x=j, is_entry=False, is_exit=True) 
+                else:
+                    cell: Cell = Cell(west=1, east=1, south=1,
+                                  north=1, set_id=count_id,
+                                  y=i, x=j, is_entry=False, is_exit=False)
                 line.append(cell)
                 count_id += 1
             maze.append(line)
 
         return maze
 
-    def generate(self) -> Maze:
+    def generate(self) -> TMaze:
 
         config = self.config
-        maze: Maze = self.init_maze()
+        maze: TMaze = self.init_maze(self.config)
         cells_42: list[Cell] = super().make_42(config, maze)
         for cell in cells_42:
             cell.set_id = -42

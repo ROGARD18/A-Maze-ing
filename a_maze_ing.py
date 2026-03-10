@@ -5,6 +5,7 @@ from random import seed, random
 
 from utils.check_dep import check_dep
 from utils.parsing import parsing
+from utils.models import Config
 from MazeGen.generator import Maze_Generator
 
 

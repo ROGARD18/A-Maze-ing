@@ -1,4 +1,4 @@
-from utils.models import Config,Maze
+from utils.models import Config,TMaze
 from MazeGen.algo.kruskal_algo import Kruskal
 
 cell_with_N: tuple[str, str, str, str, str, str, str, str] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
@@ -25,11 +25,11 @@ class Maze_Generator():
     def __init__(self, config: Config, algorithm: str) -> None:
         self.config = config
         self.algorithm = algorithm
-        self.maze: Maze = []
+        self.maze: TMaze = []
 
         if algorithm == "kruskal":
             kruskal = Kruskal(config)
-            self.maze: Maze = kruskal.generate()
+            self.maze: TMaze = kruskal.generate()
         # elif algorithm == "prism":
         #     self.maze: Maze = Kruskal.generate()
         # elif algorithm == "wilson":
