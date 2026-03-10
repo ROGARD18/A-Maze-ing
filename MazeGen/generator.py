@@ -1,6 +1,8 @@
 from utils.models import Config,TMaze
 from MazeGen.algo.kruskal_algo import Kruskal
 
+from abc import abstractmethod, ABC
+
 cell_with_N: tuple[str, str, str, str, str, str, str, str] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
 cell_with_E: tuple[str, str, str, str, str, str, str, str] = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
 
@@ -34,7 +36,7 @@ class Maze_Generator():
         #     self.maze: Maze = Kruskal.generate()
         # elif algorithm == "wilson":
         #     self.maze: Maze = Kruskal.generate()
-
+    
     def create_output_file(self) -> str:
 
         flag_first: bool = True
@@ -222,3 +224,12 @@ class Maze_Generator():
 
         # print last line of maze
         print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}{color_end}")
+
+
+class Solver(ABC):
+    @abstractmethod
+    def __init__(self, config: Config, maze: Maze_Generator) -> None:
+        pass
+
+    def solver(self, maze: Maze_Generator) -> None:
+        pass

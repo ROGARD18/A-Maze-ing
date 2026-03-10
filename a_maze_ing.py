@@ -7,6 +7,7 @@ from utils.check_dep import check_dep
 from utils.parsing import parsing
 from utils.models import Config
 from MazeGen.generator import Maze_Generator
+from MazeGen.algo.dijkstras_solver import Dijkstras
 
 
 def main() -> None:
@@ -40,6 +41,7 @@ def main() -> None:
 
     maze_gen = Maze_Generator(config=config, algorithm="kruskal")
     maze_gen.create_output_file()
+    solver = Dijkstras(config, maze_gen)
     maze_gen.draw_maze()
 
 

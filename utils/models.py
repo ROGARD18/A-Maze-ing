@@ -66,6 +66,10 @@ TMaze = list[list[Cell]]
 class Maze(ABC):
 
     @abstractmethod
+    def __init__(self, ) -> None:
+        pass
+
+    @abstractmethod
     def generate(self) -> TMaze:
         pass
 
