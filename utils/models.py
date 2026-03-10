@@ -52,7 +52,7 @@ class Cell(BaseModel):
     east: int
     north: int
     set_id: int = Field(ge=0)
-
+    in_path: bool = Field(default=False)
 # types
 
 
