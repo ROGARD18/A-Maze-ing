@@ -12,8 +12,10 @@ def create_output_file(maze_cells: list[list[Cell]], file_name: str) -> str:
                 file.write('\n')
             for cell in line:
                 cell_walls: list[int] = [cell.west, cell.south,
-                                    cell.east, cell.north]
-                if cell_walls == [0, 0, 0, 1]:
+                                         cell.east, cell.north]
+                if cell_walls == [0, 0, 0, 0]:
+                    file.write('0')
+                elif cell_walls == [0, 0, 0, 1]:
                     file.write('1')
                 elif cell_walls == [0, 0, 1, 0]:
                     file.write('2')
