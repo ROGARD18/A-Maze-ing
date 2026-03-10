@@ -1,10 +1,14 @@
+from pydantic import ValidationError
+from dotenv import load_dotenv
+from os import getenv
+from random import seed, random
+
 from utils.check_dep import check_dep
 from utils.parsing import parsing
 from utils.models import Config, Cell
 from utils.make_center_42 import make_42
 from utils.create_output_file import create_output_file
 from utils.init_maze import init_maze
-from pydantic import ValidationError
 from utils.draw_maze_file import draw_maze
 from algo. kruskal_algo import kruskal
 
@@ -30,6 +34,14 @@ def main() -> None:
         print(f"{type(e).__name__}: {e}")
         return
     try:
+        load_dotenv()
+        maze_seed: str | None = getenv("seed")
+        if maze_seed:
+            seed(float(maze_seed))
+        else:
+            maze_seed = str(random())
+            seed(float(maze_seed))
+        print(f"seed: {maze_seed}")
         maze = init_maze(config=config)
         cells_42: list[Cell] = make_42(config, maze)
         maze = kruskal(config=config, maze=maze, cells_42=cells_42)
