@@ -1,13 +1,13 @@
-from utils.models import Config, Maze, Cell
+from utils.models import Config, maze, Cell, Maze_class
 
 
-def init_maze(config: Config) -> Maze:
+def init_maze(config: Config) -> maze:
 
     height: int = config.height
     width: int = config.width
 
     count_id: int = 0
-    maze: Maze = Maze(cells=[])
+    Maze: maze = Maze_class(cells=[])
     for _ in range(height):
         line: list[Cell] = []
         for _ in range(width):
@@ -15,6 +15,6 @@ def init_maze(config: Config) -> Maze:
                               north=1, set_id=count_id)
             line.append(cell)
             count_id += 1
-        maze.cells.append(line)
+        Maze.cells.append(line)
 
     return maze

@@ -5,12 +5,7 @@ from random import seed, random
 
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from utils.models import Config, Cell
-from utils.make_center_42 import make_42
-from utils.create_output_file import create_output_file
-from utils.init_maze import init_maze
-from utils.draw_maze_file import draw_maze
-from algo. kruskal_algo import kruskal
+from MazeGen.generator import Maze_Generator
 
 
 def main() -> None:
@@ -33,25 +28,18 @@ def main() -> None:
     except (ValidationError, KeyError) as e:
         print(f"{type(e).__name__}: {e}")
         return
-    try:
-        load_dotenv()
-        maze_seed: str | None = getenv("seed")
-        if maze_seed:
-            seed(float(maze_seed))
-        else:
-            maze_seed = str(random())
-            seed(float(maze_seed))
-        print(f"seed: {maze_seed}")
-        maze = init_maze(config=config)
-        cells_42: list[Cell] = make_42(config, maze)
-        maze = kruskal(config=config, maze=maze, cells_42=cells_42)
-        create_output_file(maze.cells, config.output_file)
-    except Exception as e:
-        print(e)
-        print("line 38")
-        return
-    # draw_maze("maze2.txt")
-    draw_maze(config.output_file)
+    load_dotenv()
+    maze_seed: str | None = getenv("seed")
+    if maze_seed:
+        seed(float(maze_seed))
+    else:
+        maze_seed = str(random())
+        seed(float(maze_seed))
+    print(f"seed: {maze_seed}")
+
+    maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+    maze_gen.create_output_file()
+    maze_gen.draw_maze()
 
 
 if __name__ == "__main__":

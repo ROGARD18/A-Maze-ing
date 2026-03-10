@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator
 from typing_extensions import Self
+from abc import ABC, abstractmethod
 
 
 class NoArgumentError(Exception):
@@ -52,8 +53,48 @@ class Cell(BaseModel):
     north: int
     set_id: int = Field(ge=0)
 
+# types
 
-class Maze(BaseModel):
-    entry_p: Cell | None = Field(default=None)
-    exit_p: Cell | None = Field(default=None)
-    cells: list[list[Cell]]
+
+Maze = list[list[Cell]]
+
+
+class Algorithm(ABC):
+
+    @abstractmethod
+    def generate() -> Maze:
+        pass
+
+    def make_42(self, config: Config, maze: Maze) -> list[Cell]:
+        width = config.width
+        height = config.height
+        list_42s: list[Cell] = []
+
+        # The 4 of 42
+        list_42s.append(maze[height // 2][width // 2 - 1])
+        list_42s.append(maze[height // 2][width // 2 - 2])
+        list_42s.append(maze[height // 2][width // 2 - 3])
+        list_42s.append(maze[height // 2 - 1][width // 2 - 3])
+        list_42s.append(maze[height // 2 - 2][width // 2 - 3])
+
+        list_42s.append(maze[height // 2 + 1][width // 2 - 1])
+        list_42s.append(maze[height // 2 + 2][width // 2 - 1])
+
+        list_42s.append(maze[height // 2][width // 2 + 1])
+        list_42s.append(maze[height // 2][width // 2 + 2])
+        list_42s.append(maze[height // 2][width // 2 + 3])
+
+        list_42s.append(maze[height // 2 + 1][width // 2 + 1])
+        list_42s.append(maze[height // 2 + 2][width // 2 + 1])
+
+        list_42s.append(maze[height // 2 + 2][width // 2 + 1])
+        list_42s.append(maze[height // 2 + 2][width // 2 + 2])
+        list_42s.append(maze[height // 2 + 2][width // 2 + 3])
+
+        list_42s.append(maze[height // 2 - 1][width // 2 + 3])
+        list_42s.append(maze[height // 2 - 2][width // 2 + 3])
+
+        list_42s.append(maze[height // 2 - 2][width // 2 + 1])
+        list_42s.append(maze[height // 2 - 2][width // 2 + 2])
+
+        return list_42s

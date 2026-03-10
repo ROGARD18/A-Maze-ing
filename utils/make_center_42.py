@@ -1,4 +1,4 @@
-from utils.models import Config, Maze, Cell
+from utils.models import Config, maze, Cell
 # from utils.create_output_file import create_output_file
 
 
@@ -11,7 +11,7 @@ def forty_two_cell(cells: list[Cell]) -> None:
         cell.set_id = -42
 
 
-def make_42(config: Config, maze: Maze) -> list[Cell]:
+def make_42(config: Config, maze: maze) -> list[Cell]:
     width = config.width
     height = config.height
     list_42s: list[Cell] = []

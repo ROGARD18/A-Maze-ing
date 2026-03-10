@@ -14,7 +14,6 @@ class Colors:
     bold = "\u001b[1m"
     inverse = "\u001b[7m"
     end = "\u001b[0m"
-    # opacity = "\u001b[-10m"
     faint = "\u001b[2m"
 
 
