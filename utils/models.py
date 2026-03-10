@@ -62,7 +62,7 @@ Maze = list[list[Cell]]
 class Algorithm(ABC):
 
     @abstractmethod
-    def generate() -> Maze:
+    def generate(self) -> Maze:
         pass
 
     def make_42(self, config: Config, maze: Maze) -> list[Cell]:

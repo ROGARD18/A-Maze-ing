@@ -1,8 +1,8 @@
 from utils.models import Config,Maze
 from MazeGen.algo.kruskal_algo import Kruskal
 
-cell_with_N: tuple = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
-cell_with_E: tuple = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
+cell_with_N: tuple[str, str, str, str, str, str, str, str,] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
+cell_with_E: tuple[str, str, str, str, str, str, str, str] = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
 
 
 class Colors:
@@ -109,14 +109,13 @@ class Maze_Generator():
                 line_res: str = '█'
                 index: int = 0
                 for cell in line:
-                    if index == self.config.entry_y and \
-                     0 == self.config.entry_x:
+                    if (index == self.config.entry_y and
+                     0 == self.config.entry_x):
                         line_res += (
                             f"\u001b[0;33m████{color_end}")
-                    elif index == self.config.exit_y and \
-                            0 == self.config.exit_x:
-                        line_res += (
-                            f"\u001b[0;31m████{color_end}")
+                    elif (index == self.config.exit_y and
+                            0 == self.config.exit_x):
+                        line_res += (f"\u001b[0;31m████{color_end}")
                     elif cell == 'F':
                         line_res += (f"{color}{Colors.faint}████{color_end}")
                     else:
@@ -222,4 +221,4 @@ class Maze_Generator():
             index += 1
 
         # print last line of maze
-        print(f"{color}{make_last_line(lines[len(lines) - 1])}{color_end}")
+        print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}{color_end}")
