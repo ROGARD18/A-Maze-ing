@@ -1,8 +1,10 @@
-from utils.models import Cell, Config, Maze
+from utils.models import Cell, Config
 from MazeGen.generator import MazeGenerator, Solver
 from collections import deque
+from math import sqrt
 
-class PriorityQueue:
+
+class MinHeapPriorityQ:
 
     def __init__(self) -> None:
         self.queue: deque[Cell] = deque()
@@ -17,7 +19,12 @@ class PriorityQueue:
                     self.queue.insert(i - 1, cell)
                 else:
                     self.queue.appendleft(cell)
+    
+    def get_max_priority_cell(self) -> Cell:
+        return self.queue.popleft()
 
+    def queue_lenght(self) -> int:
+        return len(self.queue)
 
 class Dijkstras(Solver):
 
@@ -28,11 +35,54 @@ class Dijkstras(Solver):
         self.maze = maze.maze
         self.config = config
 
+
+    def calculate_root_distance(self) -> None:
+        for line in self.maze:
+            for cell in line:
+                if cell is not self.entry_cell:
+                    cell.root_distance = sqrt(
+                        (self.entry_cell.y - cell.y)**2 +
+                        (self.entry_cell.x - cell.x)**2)
+
+    def get_neighbors(self, cell: Cell) -> list[Cell]:
+        """Add the cell's neighborhood to a list
+        """
+        neighbors: list[Cell] = []
+        if cell.west == 0:
+            neighbors.append(self.maze[cell.y][cell.x - 1])
+        elif cell.east == 0:
+            neighbors.append(self.maze[cell.y][cell.x + 1])
+        elif cell.north == 0:
+            neighbors.append(self.maze[cell.y - 1][cell.x])
+        elif cell.south == 0:
+            neighbors.append(self.maze[cell.y + 1][cell.x - 1])
+        
+        return neighbors
+
+
     def solve(self) -> None:
 
-        queue = PriorityQueue()
+        queue = MinHeapPriorityQ()
+        # add entry cell to the PQ
         queue.queue_front(self.entry_cell)
-        dist = []
-        for y in range(self.config.height):
-            for x in range(self.config.width):
-                pass
+        # add all cells to dist
+        # Entry got dist = 0, others -1 (not known yet)
+        dist: dict[str, list[Cell]] = {str(self.entry_cell.root_distance): [self.entry_cell]}
+        dist["-1"] = []
+        for line in self.maze:
+            for cell in line:
+                dist["-1"].append(cell)
+        
+        for dis, cell in dist.items():
+            print(dis, cell)
+
+        while queue.queue_lenght() != 0:
+            cell = queue.get_max_priority_cell()
+            # if never visited cell / not known distance
+            neighbors: list[Cell] | None = self.get_neighbors(cell)
+            for cell in neighbors:
+                if cell in dist[str(cell.root_distance)]:
+                
+
+        
+        self.calculate_root_distance()

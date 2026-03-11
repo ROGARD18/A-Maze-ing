@@ -58,7 +58,7 @@ class Cell(BaseModel):
     is_entry: bool
     is_exit: bool
     explored: bool = Field(default=False)
-    root_distance: float = Field(default=-1) # -1 = infinity cause we dont know it yet
+    root_distance: int = Field(default=-1) # -1 = infinity cause we dont know it yet
 
 # types
 TMaze = list[list[Cell]]
