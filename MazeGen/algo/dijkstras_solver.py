@@ -1,14 +1,22 @@
 from utils.models import Cell, Config, Maze
 from MazeGen.generator import MazeGenerator, Solver
-
+from collections import deque
 
 class PriorityQueue:
 
     def __init__(self) -> None:
-        self.queue: list[Cell] = []
+        self.queue: deque[Cell] = deque()
 
-    def add_cell(self, cell: Cell) -> None:
-        self.queue.append(cell)
+    def queue_front(self, cell: Cell) -> None:
+        self.queue.appendleft(cell)
+
+    def insert_cell(self, cell: Cell) -> None:
+        for i, elem in enumerate(self.queue):
+            if cell.root_distance < elem.root_distance:
+                if i > 0:
+                    self.queue.insert(i - 1, cell)
+                else:
+                    self.queue.appendleft(cell)
 
 
 class Dijkstras(Solver):
@@ -23,7 +31,7 @@ class Dijkstras(Solver):
     def solve(self) -> None:
 
         queue = PriorityQueue()
-        queue.add_cell(self.entry_cell)
+        queue.queue_front(self.entry_cell)
         dist = []
         for y in range(self.config.height):
             for x in range(self.config.width):
