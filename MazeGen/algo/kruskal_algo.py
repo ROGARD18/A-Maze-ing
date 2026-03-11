@@ -1,4 +1,5 @@
-from utils.models import Config, TMaze, Cell, Maze
+from utils.models import Config, Cell, Maze, TMaze
+
 import random
 
 
@@ -29,6 +30,8 @@ class Kruskal(Maze):
                         x=j,
                         is_entry=True,
                         is_exit=False,
+                        root_distance=0,
+                        explored=True
                     )
                 elif i == config.exit_y and j == config.exit_x:
                     cell: Cell = Cell(
@@ -70,8 +73,6 @@ class Kruskal(Maze):
 
         config = self.config
         maze: TMaze = self.init_maze(self.config)
-        entry_cell: Cell = maze[config.entry_y][config.entry_x]
-        exit_cell: Cell = maze[config.exit_y][config.exit_x]
         cells_42: list[Cell] = super().make_42(config, maze)
         for cell in cells_42:
             cell.set_id = -42
@@ -84,13 +85,13 @@ class Kruskal(Maze):
                     continue
 
                 if x < config.height - 1:
-                    seconf_cell: Cell = maze[x + 1][y]
-                    if not (seconf_cell in cells_42):
+                    second_cell: Cell = maze[x + 1][y]
+                    if not (second_cell in cells_42):
                         edges.append(((x, y), (x + 1, y), "south"))
 
                 if y < config.width - 1:
-                    seconf_cell = maze[x][y + 1]
-                    if not (seconf_cell in cells_42):
+                    second_cell = maze[x][y + 1]
+                    if not (second_cell in cells_42):
                         edges.append(((x, y), (x, y + 1), "east"))
 
         random.shuffle(edges)

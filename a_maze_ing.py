@@ -6,7 +6,7 @@ from random import seed, random
 from utils.check_dep import check_dep
 from utils.parsing import parsing
 from utils.models import Config
-from MazeGen.generator import Maze_Generator
+from MazeGen.generator import MazeGenerator
 from MazeGen.algo.dijkstras_solver import Dijkstras
 
 
@@ -39,9 +39,10 @@ def main() -> None:
         seed(float(maze_seed))
     print(f"seed: {maze_seed}")
 
-    maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+    maze_gen = MazeGenerator(config=config, algorithm="kruskal")
     maze_gen.create_output_file()
     solver = Dijkstras(config, maze_gen)
+    solver.solve()
     maze_gen.draw_maze()
 
 

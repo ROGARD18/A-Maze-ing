@@ -22,7 +22,7 @@ class Colors:
     faint = "\u001b[2m"
 
 
-class Maze_Generator():
+class MazeGenerator():
 
     def __init__(self, config: Config, algorithm: str) -> None:
         self.config = config
@@ -228,8 +228,8 @@ class Maze_Generator():
 
 class Solver(ABC):
     @abstractmethod
-    def __init__(self, config: Config, maze: Maze_Generator) -> None:
+    def __init__(self, config: Config, maze: MazeGenerator) -> None:
         pass
 
-    def solver(self, maze: Maze_Generator) -> None:
+    def solver(self, maze: MazeGenerator) -> None:
         pass

@@ -57,7 +57,8 @@ class Cell(BaseModel):
     x: int
     is_entry: bool
     is_exit: bool
-
+    explored: bool = Field(default=False)
+    root_distance: int = Field(default=-1) # -1 = infinity cause we dont know it yet
 
 # types
 TMaze = list[list[Cell]]
@@ -66,7 +67,7 @@ TMaze = list[list[Cell]]
 class Maze(ABC):
 
     @abstractmethod
-    def __init__(self, ) -> None:
+    def __init__(self) -> None:
         pass
 
     @abstractmethod

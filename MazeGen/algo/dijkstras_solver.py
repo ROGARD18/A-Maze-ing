@@ -1,22 +1,30 @@
 from utils.models import Cell, Config, Maze
-from MazeGen.generator import Maze_Generator, Solver
+from MazeGen.generator import MazeGenerator, Solver
 
 
 class PriorityQueue:
-    queue: list[Cell]
 
-    @classmethod
-    def add_cell(cls, cell: Cell) -> None:
-        cls.queue.append(cell)
+    def __init__(self) -> None:
+        self.queue: list[Cell] = []
+
+    def add_cell(self, cell: Cell) -> None:
+        self.queue.append(cell)
 
 
 class Dijkstras(Solver):
-    def __init__(self, config: Config, maze: Maze_Generator) -> None:
+
+    
+    def __init__(self, config: Config, maze: MazeGenerator) -> None:
         self.entry_cell = maze.maze[config.entry_y][config.entry_x]
         self.exit_cell = maze.maze[config.exit_y][config.exit_x]
+        self.maze = maze.maze
+        self.config = config
 
+    def solve(self) -> None:
 
-    def solve(self, config: Config, maze: Maze) -> None:
-        pass
-
-        # queue.add_cell()
+        queue = PriorityQueue()
+        queue.add_cell(self.entry_cell)
+        dist = []
+        for y in range(self.config.height):
+            for x in range(self.config.width):
+                pass
