@@ -66,12 +66,12 @@ class Dijkstras(Solver):
         # add entry cell to the PQ
         queue.queue_front(self.entry_cell)
         # add all cells to dist
-        # Entry got dist = 0, others -1 (not known yet)
+        # Entry got dist = 0, others width + height (not ppossible value (infinity) not known yet)
         dist: dict[str, list[Cell]] = {str(self.entry_cell.root_distance): [self.entry_cell]}
-        dist["-1"] = []
+        dist[str(self.config.width + self.config.height)] = []
         for line in self.maze:
             for cell in line:
-                dist["-1"].append(cell)
+                dist[str(self.config.width + self.config.height)].append(cell)
         
         for dis, cell in dist.items():
             print(dis, cell)
@@ -79,10 +79,9 @@ class Dijkstras(Solver):
         while queue.queue_lenght() != 0:
             cell = queue.get_max_priority_cell()
             # if never visited cell / not known distance
-            neighbors: list[Cell] | None = self.get_neighbors(cell)
-            for cell in neighbors:
-                if cell in dist[str(cell.root_distance)]:
-                
+            for neighbord in self.get_neighbors(cell):
+                if float(dist[cell.root_distance]) > float(dist[0]) + neighbord.root_distance:
+                    cell.root
 
         
         self.calculate_root_distance()
