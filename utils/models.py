@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ValidationError, model_validator
+from pydantic import BaseModel, Field, ValidationError, model_validator, ConfigDict
 from typing_extensions import Self
 from abc import ABC, abstractmethod
 
@@ -47,6 +47,8 @@ class Config(BaseModel):
 
 
 class Cell(BaseModel):
+    model_config = ConfigDict(frozen=False)
+
     west: int
     south: int
     east: int
@@ -57,8 +59,16 @@ class Cell(BaseModel):
     x: int
     is_entry: bool
     is_exit: bool
-    explored: bool = Field(default=False)
-    root_distance: float = Field(default=-1) # -1 = infinity cause we dont know it yet
+    root_distance: float = Field(default=-1)
+
+    def __hash__(self) -> int:
+        return hash((self.y, self.x))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Cell):
+            return NotImplemented
+        return self.y == other.y and self.x == other.x
+
 
 # types
 TMaze = list[list[Cell]]
