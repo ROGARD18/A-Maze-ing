@@ -209,16 +209,17 @@ class Maze_Generator():
 
         # print interior of maze
         index: int = 0
-        for line in lines:
+        for l in lines:
             previous = first_line if index == 0 else lines[index - 1]
-            print(f"{color}{t.bold}{make_first_cell_line(line, previous)}"
+            print(f"{color}{t.bold}{make_first_cell_line(l, previous)}"
                   f"{color_end}")
             line_index += 1
             for _ in range(2):
-                print(f"{color}{make_cell_middle_line(line_index, line,
-                                                      color, color_end)}"
+                print(f"{color}"
+                      f"{make_cell_middle_line(line_index, l, color, t.end)}"
                       f"{color_end}")
             index += 1
 
         # print last line of maze
-        print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}{color_end}")
+        print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}"
+              f"{color_end}")
