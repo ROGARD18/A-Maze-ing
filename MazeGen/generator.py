@@ -111,12 +111,12 @@ class MazeGenerator():
                 line_res: str = '█'
                 index: int = 0
                 for cell in line:
-                    if (index == self.config.entry_y and
-                     0 == self.config.entry_x):
+                    if (index == self.config.entry_x and
+                     0 == self.config.entry_y):
                         line_res += (
                             f"\u001b[0;33m████{color_end}")
-                    elif (index == self.config.exit_y and
-                            0 == self.config.exit_x):
+                    elif (index == self.config.exit_x and
+                            0 == self.config.exit_y):
                         line_res += (f"\u001b[0;31m████{color_end}")
                     elif cell == 'F':
                         line_res += (f"{color}{Colors.faint}████{color_end}")
@@ -154,12 +154,12 @@ class MazeGenerator():
             line_res: str = "█"
             index: int = 0
             for cell in line:
-                if index == self.config.entry_y and \
-                 line_index == self.config.entry_x:
+                if index == self.config.entry_x and \
+                 line_index == self.config.entry_y:
                     line_res += (
                         f"\u001b[0;33m████{color_end}")
-                elif index == self.config.exit_y and \
-                        line_index == self.config.exit_x:
+                elif index == self.config.exit_x and \
+                        line_index == self.config.exit_y:
                     line_res += (
                         f"\u001b[0;31m████{color_end}")
                 elif cell == 'F':

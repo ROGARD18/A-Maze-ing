@@ -17,6 +17,9 @@ class Dijkstras(Solver):
         self.maze: list[list[Cell]] = maze.maze
         self.config: Config = config
 
+        print(self.entry_cell.set_id)
+        print(self.exit_cell.set_id)
+
     def get_neighbors(self, cell: Cell) -> list[Cell]:
         """Return accessible neighbors of a cell (walls = 0 means open)"""
         neighbors: list[Cell] = []
@@ -73,6 +76,6 @@ class Dijkstras(Solver):
             path.append(current_cell)
             current_cell = prev[current_cell]
 
-        print([(cell.y, cell.x) for cell in path])
         path.reverse()
+        print([(cell.y, cell.x) for cell in path])
         return path

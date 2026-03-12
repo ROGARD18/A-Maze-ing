@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator, ConfigDict
 from typing_extensions import Self
 from abc import ABC, abstractmethod
-from math import inf
 
 class NoArgumentError(Exception):
     pass
@@ -58,7 +57,6 @@ class Cell(BaseModel):
     x: int
     is_entry: bool
     is_exit: bool
-    root_distance: float = Field(default=inf)
 
     def __hash__(self) -> int:
         return hash((self.y, self.x))
