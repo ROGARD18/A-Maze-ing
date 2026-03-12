@@ -52,7 +52,7 @@ class Cell(BaseModel):
     south: int
     east: int
     north: int
-    set_id: int = Field(ge=0)
+    set_id: int
     y: int
     x: int
     is_entry: bool
@@ -81,7 +81,8 @@ class Maze(ABC):
     def generate(self) -> TMaze:
         pass
 
-    def make_42(self, config: Config, maze: TMaze) -> list[Cell]:
+    @staticmethod
+    def make_42(config: Config, maze: TMaze) -> list[Cell]:
         width = config.width
         height = config.height
         list_42s: list[Cell] = []

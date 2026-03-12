@@ -65,7 +65,7 @@ def menu_loop(config: Config) -> None:
     color_42: str = choice(colors_list)
 
     while True:
-        os.system('clear')
+        # os.system('clear')
 
         if flag_first:
             try:
@@ -199,12 +199,14 @@ def menu_loop(config: Config) -> None:
 
                 height: int = int(request)
                 width: None = None
-            config.width = width
-            config.height = height
             if height:
+                config.height = height
                 config.exit_y = height - 1
             if width:
+                config.width = width
                 config.exit_x = width - 1
+            config.entry_x = 0
+            config.entry_y = 0
             maze_gen = MazeGenerator(config=config, algorithm="kruskal")
             maze_gen.create_output_file()
 

@@ -9,7 +9,6 @@ class Kruskal(Maze):
         self.config = config
         self.name = "kruskal"
 
-
     def init_maze(self, config: Config) -> TMaze:
 
         height: int = self.config.height
