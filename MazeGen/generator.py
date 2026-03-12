@@ -5,21 +5,6 @@ cell_with_N: tuple[str, str, str, str, str, str, str, str] = ('1', '3', '5', '7'
 cell_with_E: tuple[str, str, str, str, str, str, str, str] = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
 
 
-class Colors:
-    red = "\u001b[0;31m"
-    green = "\u001b[0;32m"
-    yellow = "\u001b[0;33m"
-    blue = "\u001b[0;34m"
-    magenta = "\u001b[0;35m"
-    cyan = "\u001b[0;36m"
-    white = "\u001b[0;37m"
-    underline = "\u001b[4m"
-    bold = "\u001b[1m"
-    inverse = "\u001b[7m"
-    end = "\u001b[0m"
-    faint = "\u001b[2m"
-
-
 class Maze_Generator():
 
     def __init__(self, config: Config, algorithm: str) -> None:
@@ -86,11 +71,10 @@ class Maze_Generator():
 
         return file_name
 
-    def draw_maze(self) -> None:
-        from random import choice
+    def draw_maze(self, color: str, color_42: str) -> None:
 
-        def make_first_maze_line(line: str, color: str, color_end: str
-                                 ) -> list[str]:
+        def make_first_maze_line(line: str, color: str, color_end: str,
+                                 color_42: str) -> list[str]:
             """
             Use to create the first cell line of maze.
             Args:
@@ -117,7 +101,7 @@ class Maze_Generator():
                             0 == self.config.exit_x):
                         line_res += (f"\u001b[0;31m████{color_end}")
                     elif cell == 'F':
-                        line_res += (f"{color}{Colors.faint}████{color_end}")
+                        line_res += (f"{color_42}████{color_end}")
                     else:
                         line_res += '    '
                     if cell in cell_with_E:
@@ -148,9 +132,10 @@ class Maze_Generator():
             return line_res
 
         def make_cell_middle_line(line_index: int, line: str, color: str,
-                                  color_end: str) -> str:
+                                  color_42: str) -> str:
             line_res: str = "█"
             index: int = 0
+
             for cell in line:
                 if index == self.config.entry_y and \
                  line_index == self.config.entry_x:
@@ -161,7 +146,7 @@ class Maze_Generator():
                     line_res += (
                         f"\u001b[0;31m████{color_end}")
                 elif cell == 'F':
-                    line_res += (f"{color}{Colors.faint}████{color_end}")
+                    line_res += (f"{color_42}████{color_end}")
                 else:
                     line_res += ('    ')
                 if cell in cell_with_E:
@@ -184,11 +169,7 @@ class Maze_Generator():
             return line_res
 
         # main
-        t = Colors
-        colors_list: list[str] = [t.yellow, t.red, t.green, t.blue, t.cyan,
-                                  t.magenta, t.white]
-        color: str = choice(colors_list)
-        color_end: str = t.end
+        color_end: str = "\u001b[0m"
 
         # try to open output_file
         try:
@@ -202,21 +183,21 @@ class Maze_Generator():
         lines = content.split('\n')
         line_index: int = 0
         # print first line of maze
-        for line in make_first_maze_line(lines[0], color, color_end):
+        for line in make_first_maze_line(lines[0], color, color_end, color_42):
             print(f"{color}{line}{color_end}")
         first_line: str = lines[0]
         lines.remove(lines[0])
 
         # print interior of maze
         index: int = 0
-        for l in lines:
+        for line in lines:
             previous = first_line if index == 0 else lines[index - 1]
-            print(f"{color}{t.bold}{make_first_cell_line(l, previous)}"
+            print(f"{color}{make_first_cell_line(line, previous)}"
                   f"{color_end}")
             line_index += 1
             for _ in range(2):
                 print(f"{color}"
-                      f"{make_cell_middle_line(line_index, l, color, t.end)}"
+                      f"{make_cell_middle_line(line_index, line, color, color_42)}"
                       f"{color_end}")
             index += 1
 

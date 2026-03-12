@@ -37,9 +37,8 @@ def main() -> None:
         seed(float(maze_seed))
     print(f"seed: {maze_seed}")
 
-    maze_gen = Maze_Generator(config=config, algorithm="kruskal")
-    maze_gen.create_output_file()
-    maze_gen.draw_maze()
+    from menu.menu import menu_loop
+    menu_loop(config)
 
 
 if __name__ == "__main__":
