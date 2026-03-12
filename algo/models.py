@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field, ValidationError, model_validator, ConfigDict
+from pydantic import BaseModel, Field, ValidationError, model_validator
 from typing_extensions import Self
 from abc import ABC, abstractmethod
+
 
 class NoArgumentError(Exception):
     pass
@@ -25,12 +26,12 @@ class Config(BaseModel):
         if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
             raise ValidationError("Error: Entry et Exit are the same points.")
 
-        if self.entry_x > self.width - 1 or self.entry_y > self.height - 1:
+        if self.entry_x > self.width or self.entry_y > self.height:
             raise ValidationError(
                 "Error: Entry point is outside the area of the maze."
             )
 
-        if self.exit_x > self.width - 1 or self.exit_y > self.height - 1:
+        if self.exit_x > self.width or self.exit_y > self.height:
             raise ValidationError("Error: Exit point is outside the area of"
                                   "the maze.")
 
@@ -46,26 +47,18 @@ class Config(BaseModel):
 
 
 class Cell(BaseModel):
-    model_config = ConfigDict(frozen=False)
-
     west: int
     south: int
     east: int
     north: int
     set_id: int = Field(ge=0)
+    in_path: bool = Field(default=False)
     y: int
     x: int
     is_entry: bool
     is_exit: bool
-
-    def __hash__(self) -> int:
-        return hash((self.y, self.x))
-
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Cell):
-            return NotImplemented
-        return self.y == other.y and self.x == other.x
-
+    explored: bool = Field(default=False)
+    root_distance: int = Field(default=-1) # -1 = infinity cause we dont know it yet
 
 # types
 TMaze = list[list[Cell]]

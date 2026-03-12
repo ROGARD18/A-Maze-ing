@@ -1,4 +1,4 @@
-from MazeGen.generator import Maze_Generator
+from MazeGen.generator import MazeGenerator
 from utils.models import Config
 from random import choice
 import os
@@ -69,14 +69,13 @@ def menu_loop(config: Config) -> None:
 
         if flag_first:
             try:
-                maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+                maze_gen = MazeGenerator(config=config, algorithm="kruskal")
                 maze_gen.create_output_file()
                 flag_first = False
             except Exception as e:
                 print(e)
                 print("Erreur in menu_loop in flag_first")
                 return
-
         maze_gen.draw_maze(color, color_42)
 
         print("\n\n            __        _  _   __   ____  ____      __  __ _   "

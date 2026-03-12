@@ -29,8 +29,10 @@ class Kruskal(Maze):
                         y=i,
                         x=j,
                         is_entry=True,
-                        is_exit=False
-                        )
+                        is_exit=False,
+                        root_distance=0,
+                        explored=True
+                    )
                 elif i == config.exit_y and j == config.exit_x:
                     cell: Cell = Cell(
                         west=1,
