@@ -116,7 +116,7 @@ def menu_loop(config: Config) -> None:
             color_42 = new_color_42
 
         elif request == '3':
-            maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+            maze_gen = MazeGenerator(config=config, algorithm="kruskal")
             maze_gen.create_output_file()
 
         elif request == '4':
@@ -205,7 +205,7 @@ def menu_loop(config: Config) -> None:
                 config.exit_y = height - 1
             if width:
                 config.exit_x = width - 1
-            maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+            maze_gen = MazeGenerator(config=config, algorithm="kruskal")
             maze_gen.create_output_file()
 
         elif request == '6':
