@@ -41,9 +41,9 @@ def main() -> None:
 
     maze_gen = MazeGenerator(config=config, algorithm="kruskal")
     maze_gen.create_output_file()
+    maze_gen.draw_maze()
     solver = Dijkstras(config, maze_gen)
     solver.solve()
-    maze_gen.draw_maze()
 
 
 if __name__ == "__main__":
