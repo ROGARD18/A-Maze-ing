@@ -19,12 +19,47 @@ class Colors:
     faint = "\u001b[2m"
 
 
+# def change_maze_size(new_width: int, new_height: int) -> None:
+
+#     try:
+#         with (open("config.txt", "r") as file):
+#             content: str = file.read()
+#     except Exception as e:
+
+#         print(e)
+#         print("ERREUR in change_maze_size")
+
+#     # print(content)
+#     lines: list[str] = content.split('\n')
+#     # print(lines)
+#     for line in lines:
+#         line = line.split(' ')
+#     # print(lines)
+
+#     index: int = 0
+#     max_iteration: int = len(lines)
+#     print(max_iteration)
+#     with (open("config.txt", "w") as file):
+#         for line in lines:
+#             if '=' in line:
+#                 key, value = line.split('=')
+#                 if key == 'WIDTH' and new_width:
+#                     file.write(f"{key}={new_width}\n")
+#                 elif key == 'HEIGHT' and new_height:
+#                     file.write(f"{key}={new_height}\n")
+#                 else:
+#                     file.write(f"{line}")
+#                     if index < max_iteration - 1:
+#                         file.write("\n")
+#             index += 1
+
+
 def menu_loop(config: Config) -> None:
     flag_first: bool = True
 
     t = Colors
     colors_list: list[str] = [t.yellow, t.red, t.green, t.blue, t.cyan,
-                              t.magenta, t.white]
+                              t.magenta]
 
     color: str = choice(colors_list)
     color_42: str = choice(colors_list)
@@ -33,33 +68,39 @@ def menu_loop(config: Config) -> None:
         os.system('clear')
 
         if flag_first:
-            maze_gen = Maze_Generator(config=config, algorithm="kruskal")
-            maze_gen.create_output_file()
-            flag_first = False
+            try:
+                maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+                maze_gen.create_output_file()
+                flag_first = False
+            except Exception as e:
+                print(e)
+                print("Erreur in menu_loop in flag_first")
+                return
+
         maze_gen.draw_maze(color, color_42)
 
-        print("\n\n  __        _  _   __   ____  ____      __  __ _   "
+        print("\n\n            __        _  _   __   ____  ____      __  __ _   "
               "___ \n"
-              " / _\\  ___ ( \\/ ) / _\\ (__  )(  __) ___ (  )(  ( \\ / __)\n"
-              "/    \\(___)/ \\/ \\/    \\ / _/  ) _) (___) )( /    /( (_ \\\n"
-              "\\_/\\_/     \\_)(_/\\_/\\_/(____)(____)     (__)\\_)__) \\___/")
+              "           / _\\  ___ ( \\/ ) / _\\ (__  )(  __) ___ (  )(  ( \\ / __)\n"
+              "          /    \\(___)/ \\/ \\/    \\ / _/  ) _) (___) )( /    /( (_ \\\n"
+              "          \\_/\\_/     \\_)(_/\\_/\\_/(____)(____)     (__)\\_)__) \\___/")
 
-        print("\n         --- MENU ---")
-        print(" ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
-        print(" █                           █")
-        print(" █ 1: Change walls color     █")
-        print(" █                           █")
-        print(" █ 2: Change 42 color        █")
-        print(" █                           █")
-        print(" █ 3: Generate new maze      █")
-        print(" █                           █")
-        print(" █ 4: Show path (shortest)   █")
-        print(" █                           █")
-        print(" █ q: Exit                   █")
-        print(" █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
+        print("\n                               --- MENU ---")
+        print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        print("    █                                                                       █")
+        print("    █ 1: Change walls color            5: Change width or height of maze    █")
+        print("    █                                                                       █")
+        print("    █ 2: Change 42 color               6: Change seed                       █")
+        print("    █                                                                       █")
+        print("    █ 3: Generate new maze             7: Change algo                       █")
+        print("    █                                                                       █")
+        print("    █ 4: Show path (shortest)          8:                                   █")
+        print("    █                                                                       █")
+        print("    █ q: Exit                                                               █")
+        print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
         print("")
 
-        request: str = input('->  ')
+        request: str = input(f"{t.yellow} --->  {t.end}")
         if request == 'q':
             break
 
@@ -76,4 +117,103 @@ def menu_loop(config: Config) -> None:
             color_42 = new_color_42
 
         elif request == '3':
+            maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+            maze_gen.create_output_file()
+
+        elif request == '4':
+            pass
+
+        elif request == '5':
+            print("")
+            print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+            print("    █                          █")
+            print("    █ 1: Change width  (min 9) █")
+            print("    █                          █")
+            print("    █ 2: Change height (min 7) █")
+            print("    █                          █")
+            print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n")
+
+            request: str = input(f"{t.yellow} --->  {t.end}")
+            while request != '1' and request != '2':
+                if ' ' in request:
+                    print("No space in request !")
+                else:
+                    print(f"{request} is INVALID ! Need 1 OR 2")
+                request: str = input(f"{t.yellow} --->  {t.end}")
+
+            if request == '1':
+                print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+                print("    █                   █")
+                print("    █ ENTER NEW WIDTH:  █")
+                print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
+                request: str = input(f"{t.yellow} --->  {t.end}")
+                try:
+                    request = int(request)
+                    if request < 9:
+                        raise ValueError
+                    width_valid: bool = True
+                except Exception:
+                    print(f"The input: {request} is not a number or"
+                          "not superieur to 8")
+                    width_valid: bool = False
+
+                while not width_valid:
+                    try:
+                        request: str = input(f"{t.yellow} --->  {t.end}")
+                        request = int(request)
+                        if request < 9:
+                            raise ValueError
+                        width_valid = True
+                    except Exception:
+                        print(f"The input: {request} is not a number or"
+                              "not superieur to 8")
+
+                width: int = int(request)
+                height: None = None
+
+            elif request == '2':
+                print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+                print("    █                   █")
+                print("    █ ENTER NEW HEIGHT: █")
+                print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
+                request: str = input(f"{t.yellow} --->  {t.end}")
+                try:
+                    request = int(request)
+                    if request < 7:
+                        raise ValueError
+                    width_valid: bool = True
+                except Exception:
+                    print(f"The input: {request} is not a number or"
+                          "not superieur to 6")
+                    width_valid: bool = False
+
+                while not width_valid:
+                    try:
+                        request: str = input(f"{t.yellow} --->  {t.end}")
+                        request = int(request)
+                        if request < 9:
+                            raise ValueError
+                        width_valid = True
+                    except Exception:
+                        print(f"The input: {request} is not a number or"
+                              "not superieur to 8")
+
+                height: int = int(request)
+                width: None = None
+            config.width = width
+            config.height = height
+            if height:
+                config.exit_y = height - 1
+            if width:
+                config.exit_x = width - 1
+            maze_gen = Maze_Generator(config=config, algorithm="kruskal")
+            maze_gen.create_output_file()
+
+        elif request == '6':
+            pass
+
+        elif request == '7':
+            pass
+
+        elif request == '8':
             pass

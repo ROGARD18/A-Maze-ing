@@ -26,12 +26,12 @@ class Config(BaseModel):
         if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
             raise ValidationError("Error: Entry et Exit are the same points.")
 
-        if self.entry_x > self.width or self.entry_y > self.height:
+        if self.entry_x > self.width - 1 or self.entry_y > self.height - 1:
             raise ValidationError(
                 "Error: Entry point is outside the area of the maze."
             )
 
-        if self.exit_x > self.width or self.exit_y > self.height:
+        if self.exit_x > self.width - 1 or self.exit_y > self.height - 1:
             raise ValidationError("Error: Exit point is outside the area of"
                                   "the maze.")
 

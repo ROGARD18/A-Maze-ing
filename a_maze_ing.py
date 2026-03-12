@@ -2,10 +2,9 @@ from pydantic import ValidationError
 from dotenv import load_dotenv
 from os import getenv
 from random import seed, random
-
+from utils.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from MazeGen.generator import Maze_Generator
 
 
 def main() -> None:
