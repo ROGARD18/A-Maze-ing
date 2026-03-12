@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ValidationError, model_validator, ConfigDict
-from typing_extensions import Self
+from typing_extensions import Self, Optional
 from abc import ABC, abstractmethod
 
 class NoArgumentError(Exception):
@@ -57,6 +57,7 @@ class Cell(BaseModel):
     x: int
     is_entry: bool
     is_exit: bool
+    in_path: Optional[bool] = Field(default=False)
 
     def __hash__(self) -> int:
         return hash((self.y, self.x))

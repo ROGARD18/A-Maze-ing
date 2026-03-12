@@ -1,10 +1,7 @@
-from utils.models import Config,TMaze
+from utils.models import Config, TMaze, Cell
 from MazeGen.algo.kruskal_algo import Kruskal
 
 from abc import abstractmethod, ABC
-
-cell_with_N: tuple[str, str, str, str, str, str, str, str] = ('1', '3', '5', '7', '9', 'B', 'D', 'F')
-cell_with_E: tuple[str, str, str, str, str, str, str, str] = ('2', '3', '6', '7', 'A', 'B', 'E', 'F')
 
 
 class Colors:
@@ -36,7 +33,7 @@ class MazeGenerator():
         #     self.maze: Maze = Kruskal.generate()
         # elif algorithm == "wilson":
         #     self.maze: Maze = Kruskal.generate()
-    
+
     def create_output_file(self) -> str:
 
         flag_first: bool = True
@@ -88,10 +85,12 @@ class MazeGenerator():
 
         return file_name
 
-    def draw_maze(self, color: str, color_42: str) -> None:
+    def draw_maze(self, color: str, color_42: str, path: list[Cell] | None
+                  ) -> None:
 
         def make_first_maze_line(line: str, color: str, color_end: str,
-                                 color_42: str) -> list[str]:
+                                 color_42: str, path: list[Cell] | None
+                                 ) -> list[str]:
             """
             Use to create the first cell line of maze.
             Args:
@@ -111,18 +110,25 @@ class MazeGenerator():
                 index: int = 0
                 for cell in line:
                     if (index == self.config.entry_x and
-                     0 == self.config.entry_y):
+                       0 == self.config.entry_y):
                         line_res += (
                             f"\u001b[0;33m████{color_end}")
+                    elif path and cell in path:
+                        line_res += (f"\u001b[0;37m████{color_end}")
+
                     elif (index == self.config.exit_x and
                             0 == self.config.exit_y):
                         line_res += (f"\u001b[0;31m████{color_end}")
-                    elif cell == 'F':
+                    elif (cell.west == 1 and cell.east == 1 and cell.south == 1
+                            and cell.north == 1):
                         line_res += (f"{color_42}████{color_end}")
                     else:
                         line_res += '    '
-                    if cell in cell_with_E:
+                    if cell.east == 1:
                         line_res += f'{color}█'
+                    elif path and cell in path:
+                        line_res += f'{Colors.white}█{Colors.end}'
+
                     else:
                         line_res += ' '
                     index += 1
@@ -130,26 +136,31 @@ class MazeGenerator():
 
             return lines_first_cell
 
-        def make_first_cell_line(line: str, previous_line: str) -> str:
-            line_res: str = "█"
+        def make_first_cell_line(line: str, previous_line: str,
+                                 path: list[Cell] | None, color: str) -> str:
+            line_res: str = f"{color}█{Colors.end}"
             index: int = 0
 
             for cell, prev_cell in zip(line, previous_line):
-                if cell in cell_with_N:
-                    line_res += '▄▄▄▄'
+                if cell.north == 1:
+                    line_res += f'{color}▄▄▄▄{Colors.end}'
+                elif path and cell in path:
+                    line_res += f"{Colors.white}████{Colors.end}"
                 else:
                     line_res += '    '
 
-                if prev_cell in cell_with_E:
-                    line_res += '█'
+                if prev_cell.east == 1:
+                    line_res += f'{color}█{Colors.end}'
+                # elif path and cell in path:
+                #     line_res += f"{Colors.white}█{Colors.end}"
                 else:
-                    line_res += '▄'
+                    line_res += f'{color}▄{Colors.end}'
                 index += 1
 
             return line_res
 
         def make_cell_middle_line(line_index: int, line: str, color: str,
-                                  color_42: str) -> str:
+                                  color_42: str, path: list[Cell]) -> str:
             line_res: str = "█"
             index: int = 0
 
@@ -158,16 +169,23 @@ class MazeGenerator():
                  line_index == self.config.entry_y:
                     line_res += (
                         f"\u001b[0;33m████{color_end}")
+                elif path and cell in path:
+                    line_res += (f"\u001b[0;37m████{color_end}")
+
                 elif index == self.config.exit_x and \
                         line_index == self.config.exit_y:
                     line_res += (
                         f"\u001b[0;31m████{color_end}")
-                elif cell == 'F':
+
+                elif (cell.west == 1 and cell.east == 1 and cell.south == 1
+                        and cell.north == 1):
                     line_res += (f"{color_42}████{color_end}")
                 else:
                     line_res += ('    ')
-                if cell in cell_with_E:
+                if cell.east == 1:
                     line_res += (f"{color}█")
+                elif path and cell in path:
+                    line_res += (f"{Colors.white}█{Colors.end}")
                 else:
                     line_res += (' ')
                 index += 1
@@ -179,7 +197,7 @@ class MazeGenerator():
 
             for cell in line:
                 line_res += '▄▄▄▄'
-                if cell in cell_with_E:
+                if cell.east == 1:
                     line_res += '█'
                 else:
                     line_res += '▄'
@@ -189,37 +207,41 @@ class MazeGenerator():
         color_end: str = "\u001b[0m"
 
         # try to open output_file
-        try:
-            with open(self.config.output_file, "r") as file:
-                content: str = file.read()
-        except Exception as e:
-            print(e)
-            print("line: 179 generator.py")
-            return
+        # try:
+        #     with open(self.config.output_file, "r") as file:
+        #         content: str = file.read()
+        # except Exception as e:
+        #     print(e)
+        #     print("line: 179 generator.py")
+        #     return
 
-        lines = content.split('\n')
+        # lines = content.split('\n')
         line_index: int = 0
         # print first line of maze
-        for line in make_first_maze_line(lines[0], color, color_end, color_42):
+        maze = self.maze
+        # print("len of maze in draw_maze:", len(maze))
+
+        for line in make_first_maze_line(maze[0], color, color_end, color_42, path=path):
             print(f"{color}{line}{color_end}")
-        first_line: str = lines[0]
-        lines.remove(lines[0])
+        first_line: str = maze[0]
 
         # print interior of maze
         index: int = 0
-        for line in lines:
-            previous = first_line if index == 0 else lines[index - 1]
-            print(f"{color}{make_first_cell_line(line, previous)}"
-                  f"{color_end}")
+        for line in maze:
+            if index == 0:
+                index += 1
+                continue
+            previous = first_line if index == 0 else maze[index - 1]
+            print(f"{make_first_cell_line(line, previous, path, color)}")
             line_index += 1
             for _ in range(2):
                 print(f"{color}"
-                      f"{make_cell_middle_line(line_index, line, color, color_42)}"
+                      f"{make_cell_middle_line(line_index, line, color, color_42, path=path)}"
                       f"{color_end}")
             index += 1
 
         # print last line of maze
-        print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}{color_end}")
+        print(f"{color}{make_last_line(list(maze[len(maze) - 1]))}{color_end}")
 
 
 class Solver(ABC):

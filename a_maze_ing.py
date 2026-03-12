@@ -39,24 +39,24 @@ def main() -> None:
         seed(float(maze_seed))
     print(f"seed: {maze_seed}")
 
-    try:
-        from utils.models import Maze, Cell
-        from menu.menu import menu_loop
-        maze_gen = MazeGenerator(config=config, algorithm="kruskal")
-        maze_gen.create_output_file()
+    # try:
+    from utils.models import Maze, Cell
+    from menu.menu import menu_loop
+    maze_gen = MazeGenerator(config=config, algorithm="kruskal")
+    maze_gen.create_output_file()
 
-        cells_42: list[Cell] = Maze.make_42(config, maze_gen.maze)
-        cell_entry: Cell = maze_gen.maze[config.entry_y][config.entry_x]
+    cells_42: list[Cell] = Maze.make_42(config, maze_gen.maze)
+    cell_entry: Cell = maze_gen.maze[config.entry_y][config.entry_x]
 
-        if cell_entry in cells_42:
-            raise ValueError("Entry point is in the same place of the 42:"
-                             "Change the coordinates of entry point.")
-        menu_loop(config)
-        # maze_gen.draw_maze()
-        # solver = Dijkstras(config, maze_gen)
-        # solver.solve()
-    except Exception as e:
-        print(e)
+    if cell_entry in cells_42:
+        raise ValueError("Entry point is in the same place of the 42:"
+                            "Change the coordinates of entry point.")
+    menu_loop(config)
+    # maze_gen.draw_maze()
+    # solver = Dijkstras(config, maze_gen)
+    # solver.solve()
+    # except Exception as e:
+    #     print(e)
 
 
 if __name__ == "__main__":
