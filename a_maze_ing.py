@@ -5,9 +5,7 @@ from random import seed, random
 from utils.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from utils.models import Config
 from MazeGen.generator import MazeGenerator
-from MazeGen.algo.dijkstras_solver import Dijkstras
 
 
 def main() -> None:
@@ -50,13 +48,8 @@ def main() -> None:
 
     if cell_entry in cells_42:
         raise ValueError("Entry point is in the same place of the 42:"
-                            "Change the coordinates of entry point.")
+                         "Change the coordinates of entry point.")
     menu_loop(config)
-    # maze_gen.draw_maze()
-    # solver = Dijkstras(config, maze_gen)
-    # solver.solve()
-    # except Exception as e:
-    #     print(e)
 
 
 if __name__ == "__main__":

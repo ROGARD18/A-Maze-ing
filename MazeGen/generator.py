@@ -126,7 +126,7 @@ class MazeGenerator():
                         line_res += '    '
                     if cell.east == 1:
                         line_res += f'{color}█'
-                    elif path and cell in path:
+                    elif path and cell in path and line[index + 1] in path:
                         line_res += f'{Colors.white}█{Colors.end}'
 
                     else:
@@ -144,7 +144,7 @@ class MazeGenerator():
             for cell, prev_cell in zip(line, previous_line):
                 if cell.north == 1:
                     line_res += f'{color}▄▄▄▄{Colors.end}'
-                elif path and cell in path:
+                elif path and cell in path and prev_cell in path:
                     line_res += f"{Colors.white}████{Colors.end}"
                 else:
                     line_res += '    '
@@ -184,7 +184,8 @@ class MazeGenerator():
                     line_res += ('    ')
                 if cell.east == 1:
                     line_res += (f"{color}█")
-                elif path and cell in path:
+
+                elif path and cell in path and line[index + 1] in path:
                     line_res += (f"{Colors.white}█{Colors.end}")
                 else:
                     line_res += (' ')
@@ -206,22 +207,13 @@ class MazeGenerator():
         # main
         color_end: str = "\u001b[0m"
 
-        # try to open output_file
-        # try:
-        #     with open(self.config.output_file, "r") as file:
-        #         content: str = file.read()
-        # except Exception as e:
-        #     print(e)
-        #     print("line: 179 generator.py")
-        #     return
-
-        # lines = content.split('\n')
         line_index: int = 0
         # print first line of maze
         maze = self.maze
         # print("len of maze in draw_maze:", len(maze))
 
-        for line in make_first_maze_line(maze[0], color, color_end, color_42, path=path):
+        for line in make_first_maze_line(maze[0], color, color_end,
+                                         color_42, path=path):
             print(f"{color}{line}{color_end}")
         first_line: str = maze[0]
 
@@ -236,7 +228,8 @@ class MazeGenerator():
             line_index += 1
             for _ in range(2):
                 print(f"{color}"
-                      f"{make_cell_middle_line(line_index, line, color, color_42, path=path)}"
+                      f"{make_cell_middle_line(line_index, line,
+                                               color, color_42, path=path)}"
                       f"{color_end}")
             index += 1
 

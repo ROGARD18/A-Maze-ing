@@ -67,7 +67,8 @@ class Dijkstras(Solver):
                     prev[neighbor] = current
                     queue.append(neighbor)
 
-        if prev[self.exit_cell] is None and self.exit_cell is not self.entry_cell:
+        if (prev[self.exit_cell] is None and
+                self.exit_cell is not self.entry_cell):
             return None
 
         path: list[Cell] = []

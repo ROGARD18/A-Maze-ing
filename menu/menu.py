@@ -3,63 +3,14 @@ from utils.models import Config
 from random import choice
 from MazeGen.algo.dijkstras_solver import Dijkstras
 import os
-
-
-class Colors:
-    red = "\u001b[0;31m"
-    green = "\u001b[0;32m"
-    yellow = "\u001b[0;33m"
-    blue = "\u001b[0;34m"
-    magenta = "\u001b[0;35m"
-    cyan = "\u001b[0;36m"
-    white = "\u001b[0;37m"
-    underline = "\u001b[4m"
-    bold = "\u001b[1m"
-    inverse = "\u001b[7m"
-    end = "\u001b[0m"
-    faint = "\u001b[2m"
-
-
-# def change_maze_size(new_width: int, new_height: int) -> None:
-
-#     try:
-#         with (open("config.txt", "r") as file):
-#             content: str = file.read()
-#     except Exception as e:
-
-#         print(e)
-#         print("ERREUR in change_maze_size")
-
-#     # print(content)
-#     lines: list[str] = content.split('\n')
-#     # print(lines)
-#     for line in lines:
-#         line = line.split(' ')
-#     # print(lines)
-
-#     index: int = 0
-#     max_iteration: int = len(lines)
-#     print(max_iteration)
-#     with (open("config.txt", "w") as file):
-#         for line in lines:
-#             if '=' in line:
-#                 key, value = line.split('=')
-#                 if key == 'WIDTH' and new_width:
-#                     file.write(f"{key}={new_width}\n")
-#                 elif key == 'HEIGHT' and new_height:
-#                     file.write(f"{key}={new_height}\n")
-#                 else:
-#                     file.write(f"{line}")
-#                     if index < max_iteration - 1:
-#                         file.write("\n")
-#             index += 1
+from MazeGen.generator import Colors
 
 
 def menu_loop(config: Config) -> None:
     flag_first: bool = True
 
     t = Colors
-    colors_list: list[str] = [t.yellow, t.red, t.green, t.blue, t.cyan,
+    colors_list: list[str] = [t.yellow, t.green, t.blue, t.cyan,
                               t.magenta]
 
     color: str = choice(colors_list)
@@ -80,28 +31,44 @@ def menu_loop(config: Config) -> None:
                 return
         solver = Dijkstras(config, maze_gen)
         solver_path = solver.solve()
-        solver_path = solver_path[:-1]
+        # solver_path = solver_path[:-1]
         maze_gen.draw_maze(color, color_42, path)
 
-        print("\n\n            __        _  _   __   ____  ____      __  __ _   "
+        print("\n\n            __        _  _   __   ____  ____      __  __ "
+              "_   "
               "___ \n"
-              "           / _\\  ___ ( \\/ ) / _\\ (__  )(  __) ___ (  )(  ( \\ / __)\n"
-              "          /    \\(___)/ \\/ \\/    \\ / _/  ) _) (___) )( /    /( (_ \\\n"
-              "          \\_/\\_/     \\_)(_/\\_/\\_/(____)(____)     (__)\\_)__) \\___/")
+              "           / _\\  ___ ( \\/ ) / _\\ (__  )(  __) ___ (  )(  ( "
+              "\\ / __)\n"
+              "          /    \\(___)/ \\/ \\/    \\ / _/  ) _) (___) )( /    "
+              "/( (_ \\\n"
+              "          \\_/\\_/     \\_)(_/\\_/\\_/(____)(____)     (__)\\_"
+              ")__) \\___/")
 
         print("\n                               --- MENU ---")
-        print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
-        print("    █                                                                       █")
-        print("    █ 1: Change walls color            5: Change width or height of maze    █")
-        print("    █                                                                       █")
-        print("    █ 2: Change 42 color               6: Change seed                       █")
-        print("    █                                                                       █")
-        print("    █ 3: Generate new maze             7: Change algo                       █")
-        print("    █                                                                       █")
-        print("    █ 4: Show/Hide path (shortest)          8:                              █")
-        print("    █                                                                       █")
-        print("    █ q: Exit                                                               █")
-        print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
+        print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"
+              "▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        print("    █                                                          "
+              "             █")
+        print("    █ 1: Change walls color            5: Change width or "
+              "height of maze    █")
+        print("    █                                                          "
+              "             █")
+        print("    █ 2: Change 42 color               6: Change seed          "
+              "             █")
+        print("    █                                                          "
+              "             █")
+        print("    █ 3: Generate new maze             7: Change algo          "
+              "             █")
+        print("    █                                                          "
+              "             █")
+        print("    █ 4: Show/Hide path (shortest)                             "
+              "             █")
+        print("    █                                                          "
+              "             █")
+        print("    █ q: Exit                                                  "
+              "             █")
+        print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"
+              "▄▄▄▄▄▄▄▄▄▄▄▄▄█")
         print("")
 
         request: str = input(f"{t.yellow} --->  {t.end}")
