@@ -4,7 +4,7 @@ from random import choice
 from MazeGen.algo.dijkstras_solver import Dijkstras
 import os
 from MazeGen.generator import Colors
-from algo.kruskal_algo import Kruskal
+from MazeGen.algo.kruskal_algo import Kruskal
 
 
 def menu_loop(config: Config) -> None:
@@ -34,7 +34,6 @@ def menu_loop(config: Config) -> None:
         solver_path = solver.solve()
         # solver_path = solver_path[:-1]
         maze_gen.draw_maze(color, color_42, path)
-
         print("\n\n            __        _  _   __   ____  ____      __  __ "
               "_   "
               "___ \n"
@@ -201,5 +200,4 @@ def menu_loop(config: Config) -> None:
             pass
 
         elif request == '8':
-           kruskal_obj = Kruskal(config, None)
-           kruskal_obj.generate(animated=True)
+            maze_gen.maze.generate(animated=True)

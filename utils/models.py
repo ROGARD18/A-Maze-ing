@@ -27,7 +27,7 @@ class Config(BaseModel):
 
         if self.entry_x > self.width - 1 or self.entry_y > self.height - 1:
             raise ValidationError(
-                "Error: Entry point is outside the area of the maze."
+                "Error: Entry point is outside the area of the grid."
             )
 
         if self.exit_x > self.width - 1 or self.exit_y > self.height - 1:
@@ -69,7 +69,7 @@ class Cell(BaseModel):
 
 
 # types
-TMaze = list[list[Cell]]
+Grid = list[list[Cell]]
 
 
 class Maze(ABC):
@@ -79,40 +79,39 @@ class Maze(ABC):
         pass
 
     @abstractmethod
-    def generate(self) -> TMaze:
+    def generate(self, animated: bool) -> Grid:
         pass
 
-    @staticmethod
-    def make_42(config: Config, maze: TMaze) -> list[Cell]:
+    def make_42(self, config: Config, grid: Grid) -> list[Cell]:
         width = config.width
         height = config.height
         list_42s: list[Cell] = []
 
         # The 4 of 42
-        list_42s.append(maze[height // 2][width // 2 - 1])
-        list_42s.append(maze[height // 2][width // 2 - 2])
-        list_42s.append(maze[height // 2][width // 2 - 3])
-        list_42s.append(maze[height // 2 - 1][width // 2 - 3])
-        list_42s.append(maze[height // 2 - 2][width // 2 - 3])
+        list_42s.append(grid[height // 2][width // 2 - 1])
+        list_42s.append(grid[height // 2][width // 2 - 2])
+        list_42s.append(grid[height // 2][width // 2 - 3])
+        list_42s.append(grid[height // 2 - 1][width // 2 - 3])
+        list_42s.append(grid[height // 2 - 2][width // 2 - 3])
 
-        list_42s.append(maze[height // 2 + 1][width // 2 - 1])
-        list_42s.append(maze[height // 2 + 2][width // 2 - 1])
+        list_42s.append(grid[height // 2 + 1][width // 2 - 1])
+        list_42s.append(grid[height // 2 + 2][width // 2 - 1])
 
-        list_42s.append(maze[height // 2][width // 2 + 1])
-        list_42s.append(maze[height // 2][width // 2 + 2])
-        list_42s.append(maze[height // 2][width // 2 + 3])
+        list_42s.append(grid[height // 2][width // 2 + 1])
+        list_42s.append(grid[height // 2][width // 2 + 2])
+        list_42s.append(grid[height // 2][width // 2 + 3])
 
-        list_42s.append(maze[height // 2 + 1][width // 2 + 1])
-        list_42s.append(maze[height // 2 + 2][width // 2 + 1])
+        list_42s.append(grid[height // 2 + 1][width // 2 + 1])
+        list_42s.append(grid[height // 2 + 2][width // 2 + 1])
 
-        list_42s.append(maze[height // 2 + 2][width // 2 + 1])
-        list_42s.append(maze[height // 2 + 2][width // 2 + 2])
-        list_42s.append(maze[height // 2 + 2][width // 2 + 3])
+        list_42s.append(grid[height // 2 + 2][width // 2 + 1])
+        list_42s.append(grid[height // 2 + 2][width // 2 + 2])
+        list_42s.append(grid[height // 2 + 2][width // 2 + 3])
 
-        list_42s.append(maze[height // 2 - 1][width // 2 + 3])
-        list_42s.append(maze[height // 2 - 2][width // 2 + 3])
+        list_42s.append(grid[height // 2 - 1][width // 2 + 3])
+        list_42s.append(grid[height // 2 - 2][width // 2 + 3])
 
-        list_42s.append(maze[height // 2 - 2][width // 2 + 1])
-        list_42s.append(maze[height // 2 - 2][width // 2 + 2])
+        list_42s.append(grid[height // 2 - 2][width // 2 + 1])
+        list_42s.append(grid[height // 2 - 2][width // 2 + 2])
 
         return list_42s

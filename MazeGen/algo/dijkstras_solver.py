@@ -12,9 +12,9 @@ class Dijkstras(Solver):
             config (Config): config object
             maze (MazeGenerator): Maze object
         """
-        self.entry_cell: Cell = maze.maze[config.entry_y][config.entry_x]
-        self.exit_cell: Cell = maze.maze[config.exit_y][config.exit_x]
-        self.maze: list[list[Cell]] = maze.maze
+        self.entry_cell: Cell = maze.grid[config.entry_y][config.entry_x]
+        self.exit_cell: Cell = maze.grid[config.exit_y][config.exit_x]
+        self.grid: list[list[Cell]] = maze.grid
         self.config: Config = config
 
         # print(self.entry_cell.set_id)`
@@ -24,20 +24,20 @@ class Dijkstras(Solver):
         """Return accessible neighbors of a cell (walls = 0 means open)"""
         neighbors: list[Cell] = []
         if cell.west == 0 and cell.x > 0:
-            neighbors.append(self.maze[cell.y][cell.x - 1])
+            neighbors.append(self.grid[cell.y][cell.x - 1])
         if cell.east == 0 and cell.x < self.config.width - 1:
-            neighbors.append(self.maze[cell.y][cell.x + 1])
+            neighbors.append(self.grid[cell.y][cell.x + 1])
         if cell.north == 0 and cell.y > 0:
-            neighbors.append(self.maze[cell.y - 1][cell.x])
+            neighbors.append(self.grid[cell.y - 1][cell.x])
         if cell.south == 0 and cell.y < self.config.height - 1:
-            neighbors.append(self.maze[cell.y + 1][cell.x])
+            neighbors.append(self.grid[cell.y + 1][cell.x])
         return neighbors
 
     def solve(self) -> list[Cell] | None:
         dist: dict[Cell, float] = {}
         prev: dict[Cell, Cell | None] = {}
 
-        for row in self.maze:
+        for row in self.grid:
             for cell in row:
                 dist[cell] = inf
                 prev[cell] = None

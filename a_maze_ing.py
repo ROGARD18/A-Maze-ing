@@ -43,8 +43,8 @@ def main() -> None:
     maze_gen = MazeGenerator(config=config, algorithm="kruskal")
     maze_gen.create_output_file()
 
-    cells_42: list[Cell] = Maze.make_42(config, maze_gen.maze)
-    cell_entry: Cell = maze_gen.maze[config.entry_y][config.entry_x]
+    cells_42: list[Cell] = Maze.make_42(maze_gen.maze, config, maze_gen.grid)
+    cell_entry: Cell = maze_gen.grid[config.entry_y][config.entry_x]
 
     if cell_entry in cells_42:
         raise ValueError("Entry point is in the same place of the 42:"

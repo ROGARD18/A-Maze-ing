@@ -1,4 +1,4 @@
-from utils.models import Config, TMaze, Cell
+from utils.models import Config, Grid, Cell
 from MazeGen.algo.kruskal_algo import Kruskal
 
 from abc import abstractmethod, ABC
@@ -24,21 +24,21 @@ class MazeGenerator():
     def __init__(self, config: Config, algorithm: str) -> None:
         self.config = config
         self.algorithm = algorithm
-        self.maze: TMaze = []
+        self.grid: Grid = []
 
         if algorithm == "kruskal":
-            kruskal = Kruskal(config)
-            self.maze: TMaze = kruskal.generate()
+            self.maze = Kruskal(config)
+            self.grid: Grid =  self.maze.generate(animated=False)
         # elif algorithm == "prism":
-        #     self.maze: Maze = Kruskal.generate()
+        #     self.grid: Maze = Kruskal.generate()
         # elif algorithm == "wilson":
-        #     self.maze: Maze = Kruskal.generate()
+        #     self.grid: Maze = Kruskal.generate()
 
     def create_output_file(self) -> str:
 
         flag_first: bool = True
         file_name: str = self.config.output_file
-        maze = self.maze
+        maze = self.grid
         with open(file_name, "w+") as file:
             for line in maze:
                 if flag_first:
@@ -209,7 +209,7 @@ class MazeGenerator():
 
         line_index: int = 0
         # print first line of maze
-        maze = self.maze
+        maze = self.grid
         # print("len of maze in draw_maze:", len(maze))
 
         for line in make_first_maze_line(maze[0], color, color_end,
