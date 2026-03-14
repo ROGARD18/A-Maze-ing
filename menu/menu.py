@@ -101,7 +101,7 @@ def menu_loop(config: Config) -> None:
             if path:
                 path = None
             else:
-                path = solver_path
+                path = solver_path[:-1]
 
         elif request == '5':
             print("")
