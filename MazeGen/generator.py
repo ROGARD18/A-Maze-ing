@@ -21,14 +21,16 @@ class Colors:
 
 class MazeGenerator():
 
-    def __init__(self, config: Config, algorithm: str) -> None:
+    def __init__(self, config: Config, algorithm: str, color: str, color_42: str, gen_time: float) -> None:
         self.config = config
         self.algorithm = algorithm
         self.grid: Grid = []
+        self.color = color
+        self.color_42 = color_42
 
         if algorithm == "kruskal":
             self.maze = Kruskal(config)
-            self.grid: Grid =  self.maze.generate(animated=False, color=None, color_42=None)
+            self.grid: Grid =  self.maze.generate(animated=True, color=color, color_42=color_42, gen_time=gen_time)
         # elif algorithm == "prism":
         #     self.grid: Maze = Kruskal.generate()
         # elif algorithm == "wilson":

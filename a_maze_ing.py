@@ -6,6 +6,7 @@ from utils.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
 from MazeGen.generator import MazeGenerator
+from Menu.menu import menu_loop
 
 
 def main() -> None:
@@ -37,18 +38,6 @@ def main() -> None:
         seed(float(maze_seed))
     print(f"seed: {maze_seed}")
 
-    # try:
-    from utils.models import Maze, Cell
-    from menu.menu import menu_loop
-    maze_gen = MazeGenerator(config=config, algorithm="kruskal")
-    maze_gen.create_output_file()
-
-    cells_42: list[Cell] = Maze.make_42(maze_gen.maze, config, maze_gen.grid)
-    cell_entry: Cell = maze_gen.grid[config.entry_y][config.entry_x]
-
-    if cell_entry in cells_42:
-        raise ValueError("Entry point is in the same place of the 42:"
-                         "Change the coordinates of entry point.")
     menu_loop(config)
 
 

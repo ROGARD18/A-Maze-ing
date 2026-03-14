@@ -9,13 +9,14 @@ from MazeGen.algo.kruskal_algo import Kruskal
 
 def menu_loop(config: Config) -> None:
     flag_first: bool = True
+    gen_time: float = 0.05
 
     t = Colors
     colors_list: list[str] = [t.yellow, t.green, t.blue, t.cyan,
                               t.magenta]
 
-    color: str = choice(colors_list)
-    color_42: str = choice(colors_list)
+    color: str = Colors.yellow
+    color_42: str = Colors.magenta
     path = None
 
     while True:
@@ -23,9 +24,8 @@ def menu_loop(config: Config) -> None:
 
         if flag_first:
             try:
-                maze_gen = MazeGenerator(config=config, algorithm="kruskal")
+                maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
                 maze_gen.create_output_file()
-                flag_first = False
             except Exception as e:
                 print(e)
                 print("Erreur in menu_loop in flag_first")
@@ -33,9 +33,11 @@ def menu_loop(config: Config) -> None:
         solver = Dijkstras(config, maze_gen)
         solver_path = solver.solve()
         # solver_path = solver_path[:-1]
-        maze: Grid = maze_gen.grid
         # print(maze)
-        maze_gen.draw_maze(maze, config, color, color_42, path)
+        maze: Grid = maze_gen.grid
+        if not flag_first:
+            maze_gen.draw_maze(maze, config, color, color_42, path)
+        flag_first = False
         print("\n\n            __        _  _   __   ____  ____      __  __ "
               "_   "
               "___ \n"
@@ -63,7 +65,7 @@ def menu_loop(config: Config) -> None:
               "             █")
         print("    █                                                          "
               "             █")
-        print("    █ 4: Show/Hide path (shortest)     8: Show generation animation"
+        print("    █ 4: Show/Hide path (shortest)     8: Change time maze creation"
               "         █")
         print("    █                                                          "
               "             █")
@@ -90,7 +92,7 @@ def menu_loop(config: Config) -> None:
             color_42 = new_color_42
 
         elif request == '3':
-            maze_gen = MazeGenerator(config=config, algorithm="kruskal")
+            maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
             if path:
                 solver = Dijkstras(config, maze_gen)
                 path = solver.solve()
@@ -188,7 +190,7 @@ def menu_loop(config: Config) -> None:
                 config.exit_x = width - 1
             config.entry_x = 0
             config.entry_y = 0
-            maze_gen = MazeGenerator(config=config, algorithm="kruskal")
+            maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
             if path:
                 solver = Dijkstras(config, maze_gen)
                 path = solver.solve()
@@ -202,4 +204,23 @@ def menu_loop(config: Config) -> None:
             pass
 
         elif request == '8':
-            maze_gen.maze.generate(animated=True, color=color, color_42=color_42)
+            print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+            print("    █                                  █")
+            print("    █ ENTER NEW Time (default = 0.05): █")
+            print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
+            request: str = input(f"{t.yellow} --->  {t.end}")
+            try:
+                request = float(request)
+                width_valid: bool = True
+            except Exception:
+                print(f"The input: {request} is not a number")
+                width_valid: bool = False
+
+            while not width_valid:
+                try:
+                    request: str = input(f"{t.yellow} --->  {t.end}")
+                    request = float(request)
+                    width_valid = True
+                except Exception:
+                    print(f"The input: {request} is not a number")
+            gen_time = request

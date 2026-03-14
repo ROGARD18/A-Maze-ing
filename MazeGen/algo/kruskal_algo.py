@@ -67,7 +67,8 @@ class Kruskal(Maze):
     def get_exit(self, cell: Cell) -> Cell:
         return cell
 
-    def generate(self, animated: bool, color: str | None, color_42: str | None) -> Grid:
+    def generate(self, animated: bool, color: str | None, color_42: str | None,
+                 gen_time: float | None) -> Grid:
 
         config = self.config
         grid: Grid = self.init_maze(self.config)
@@ -118,6 +119,6 @@ class Kruskal(Maze):
                     from MazeGen.generator import MazeGenerator
                     os.system('clear')
                     MazeGenerator.draw_maze(grid, config, color, color_42, path=None)
-                    time.sleep(0.05)
+                    time.sleep(gen_time)
 
         return grid
