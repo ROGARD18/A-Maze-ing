@@ -112,5 +112,7 @@ class Kruskal(Maze):
                     for cell in line:
                         if cell.set_id == bad_id:
                             cell.set_id = good_id
+                if animated:
+                    
 
         return grid
