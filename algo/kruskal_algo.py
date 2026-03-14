@@ -234,7 +234,7 @@ class Kruskal(Maze):
         # print last line of maze
         print(f"{color}{make_last_line(list(lines[len(lines) - 1]))}{color_end}")
 
-    def generate(self) -> TMaze:
+    def generate(self, animated: bool | None) -> TMaze:
 
         config = self.config
         maze: TMaze = self.init_maze(self.config)
@@ -281,59 +281,63 @@ class Kruskal(Maze):
                     for cell in line:
                         if cell.set_id == bad_id:
                             cell.set_id = good_id
+                if animated:
+                    self._write_maze(maze)
+                    os.system('clear')
+                    self.draw_maze()
+                    time.sleep(0.05)
 
         return maze
 
+    # def animated_generation(self) -> TMaze:
+    #     config = self.config
+    #     maze: TMaze = self.init_maze(self.config)
+    #     cells_42: list[Cell] = super().make_42(config, maze)
+    #     for cell in cells_42:
+    #         cell.set_id = -42
+    #     edges: list[tuple[tuple[int, int], tuple[int, int], "str"]] = []
 
-    def animated_generation(self) -> TMaze:
-        config = self.config
-        maze: TMaze = self.init_maze(self.config)
-        cells_42: list[Cell] = super().make_42(config, maze)
-        for cell in cells_42:
-            cell.set_id = -42
-        edges: list[tuple[tuple[int, int], tuple[int, int], "str"]] = []
+    #     for x in range(config.height):
+    #         for y in range(config.width):
+    #             first_cell: Cell = maze[x][y]
+    #             if first_cell in cells_42:
+    #                 continue
 
-        for x in range(config.height):
-            for y in range(config.width):
-                first_cell: Cell = maze[x][y]
-                if first_cell in cells_42:
-                    continue
+    #             if x < config.height - 1:
+    #                 second_cell: Cell = maze[x + 1][y]
+    #                 if not (second_cell in cells_42):
+    #                     edges.append(((x, y), (x + 1, y), "south"))
 
-                if x < config.height - 1:
-                    second_cell: Cell = maze[x + 1][y]
-                    if not (second_cell in cells_42):
-                        edges.append(((x, y), (x + 1, y), "south"))
+    #             if y < config.width - 1:
+    #                 second_cell = maze[x][y + 1]
+    #                 if not (second_cell in cells_42):
+    #                     edges.append(((x, y), (x, y + 1), "east"))
 
-                if y < config.width - 1:
-                    second_cell = maze[x][y + 1]
-                    if not (second_cell in cells_42):
-                        edges.append(((x, y), (x, y + 1), "east"))
+    #     random.shuffle(edges)
 
-        random.shuffle(edges)
+    #     for (x1, y1), (x2, y2), wall in edges:
+    #         cell_one: Cell = maze[x1][y1]
+    #         cell_two: Cell = maze[x2][y2]
 
-        for (x1, y1), (x2, y2), wall in edges:
-            cell_one: Cell = maze[x1][y1]
-            cell_two: Cell = maze[x2][y2]
+    #         if cell_one.set_id != cell_two.set_id:
+    #             if wall == "south":
+    #                 cell_one.south = 0
+    #                 cell_two.north = 0
 
-            if cell_one.set_id != cell_two.set_id:
-                if wall == "south":
-                    cell_one.south = 0
-                    cell_two.north = 0
+    #             elif wall == "east":
+    #                 cell_one.east = 0
+    #                 cell_two.west = 0
 
-                elif wall == "east":
-                    cell_one.east = 0
-                    cell_two.west = 0
+    #             good_id: int = cell_one.set_id
+    #             bad_id: int = cell_two.set_id
 
-                good_id: int = cell_one.set_id
-                bad_id: int = cell_two.set_id
+    #             for line in maze:
+    #                 for cell in line:
+    #                     if cell.set_id == bad_id:
+    #                         cell.set_id = good_id
+    #             self._write_maze(maze)
+    #             os.system('clear')
+    #             self.draw_maze()
+    #             time.sleep(0.05)
 
-                for line in maze:
-                    for cell in line:
-                        if cell.set_id == bad_id:
-                            cell.set_id = good_id
-                self._write_maze(maze)
-                os.system('clear')
-                self.draw_maze()
-                time.sleep(0.05) 
-
-        return maze
+    #     return maze

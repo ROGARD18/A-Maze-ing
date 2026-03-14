@@ -6,6 +6,7 @@ import os
 from MazeGen.generator import Colors
 from algo.kruskal_algo import Kruskal
 
+
 def menu_loop(config: Config) -> None:
     flag_first: bool = True
 
@@ -201,4 +202,4 @@ def menu_loop(config: Config) -> None:
 
         elif request == '8':
            kruskal_obj = Kruskal(config, None)
-           kruskal_obj.animated_generation()
+           kruskal_obj.generate(animated=True)
