@@ -79,7 +79,8 @@ class Maze(ABC):
         pass
 
     @abstractmethod
-    def generate(self, animated: bool) -> Grid:
+    def generate(self, animated: bool, color: str | None, color_42: str | None,
+                 gen_time: float | None) -> Grid:
         pass
 
     def make_42(self, config: Config, grid: Grid) -> list[Cell]:

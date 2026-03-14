@@ -10,6 +10,7 @@ from MazeGen.algo.kruskal_algo import Kruskal
 def menu_loop(config: Config) -> None:
     flag_first: bool = True
     gen_time: float = 0.05
+    draw_path: bool = False
 
     t = Colors
     colors_list: list[str] = [t.yellow, t.green, t.blue, t.cyan,
@@ -30,13 +31,16 @@ def menu_loop(config: Config) -> None:
                 print(e)
                 print("Erreur in menu_loop in flag_first")
                 return
-        solver = Dijkstras(config, maze_gen)
-        solver_path = solver.solve()
+            solver = Dijkstras(config, maze_gen)
+            solver_path = solver.solve(is_new_maze=True)
         # solver_path = solver_path[:-1]
         # print(maze)
         maze: Grid = maze_gen.grid
         if not flag_first:
-            maze_gen.draw_maze(maze, config, color, color_42, path)
+            if draw_path:
+                maze_gen.draw_maze(maze, config, color, color_42, path)
+            else:
+                maze_gen.draw_maze(maze, config, color, color_42, None)
         flag_first = False
         print("\n\n            __        _  _   __   ____  ____      __  __ "
               "_   "
@@ -93,17 +97,16 @@ def menu_loop(config: Config) -> None:
 
         elif request == '3':
             maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
-            if path:
-                solver = Dijkstras(config, maze_gen)
-                path = solver.solve()
-                path = path[:-1]
             maze_gen.create_output_file()
+            solver = Dijkstras(config, maze_gen)
+            path = solver.solve(is_new_maze=True)
+            path = path[:-1]
 
         elif request == '4':
-            if path:
-                path = None
+            if draw_path:
+                draw_path = False
             else:
-                path = solver_path[:-1]
+                draw_path = True
 
         elif request == '5':
             print("")
@@ -191,11 +194,10 @@ def menu_loop(config: Config) -> None:
             config.entry_x = 0
             config.entry_y = 0
             maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
-            if path:
-                solver = Dijkstras(config, maze_gen)
-                path = solver.solve()
-                path = path[:-1]
             maze_gen.create_output_file()
+            solver = Dijkstras(config, maze_gen)
+            path = solver.solve(is_new_maze=True)
+            path = path[:-1]
 
         elif request == '6':
             pass

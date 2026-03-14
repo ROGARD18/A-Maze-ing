@@ -33,7 +33,7 @@ class Dijkstras(Solver):
             neighbors.append(self.grid[cell.y + 1][cell.x])
         return neighbors
 
-    def solve(self) -> list[Cell] | None:
+    def solve(self, is_new_maze: bool) -> list[Cell]:
         dist: dict[Cell, float] = {}
         prev: dict[Cell, Cell | None] = {}
 
@@ -67,17 +67,36 @@ class Dijkstras(Solver):
                     prev[neighbor] = current
                     queue.append(neighbor)
 
-        if (prev[self.exit_cell] is None and
-                self.exit_cell is not self.entry_cell):
-            return None
+        # if prev[self.exit_cell] is None and self.exit_cell is not self.entry_cell:
+        #     return None
 
         path: list[Cell] = []
         current_cell: Cell | None = self.exit_cell
         while current_cell is not None:
             path.append(current_cell)
-            current_cell = prev[current_cell]
+            current_cell: Cell = prev[current_cell]
 
         path.reverse()
-        # print([(cell.y, cell.x) for cell in path])
-
+        res: str = ""
+        for i, cell in enumerate(path):
+            if i == 0:
+                print("ici")
+                prev: Cell = cell
+                continue
+            if cell.y > prev.y:
+                res += "S"
+                prev = cell
+            elif cell.y < prev.y:
+                res += "N"
+                prev = cell
+            elif cell.x > prev.x:
+                res += "E"
+                prev = cell
+            elif cell.x < prev.x:
+                res += "W"
+                prev = cell
+        if is_new_maze:
+            with open(self.config.output_file, "a") as file:
+                print("\n", file=file)
+                print(res, file=file)
         return path

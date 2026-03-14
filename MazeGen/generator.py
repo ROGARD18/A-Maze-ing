@@ -245,5 +245,5 @@ class Solver(ABC):
     def __init__(self, config: Config, maze: MazeGenerator) -> None:
         pass
 
-    def solver(self, maze: MazeGenerator) -> None:
+    def solver(self, is_new_maze: bool) -> list[Cell]:
         pass

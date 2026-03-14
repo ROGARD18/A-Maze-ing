@@ -6,6 +6,7 @@ from utils.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
 from MazeGen.generator import MazeGenerator
+from MazeGen.algo.dijkstras_solver import Dijkstras
 from Menu.menu import menu_loop
 
 

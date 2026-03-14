@@ -119,6 +119,6 @@ class Kruskal(Maze):
                     from MazeGen.generator import MazeGenerator
                     os.system('clear')
                     MazeGenerator.draw_maze(grid, config, color, color_42, path=None)
-                    time.sleep(gen_time)
+                    time.sleep(0.01)
 
         return grid
