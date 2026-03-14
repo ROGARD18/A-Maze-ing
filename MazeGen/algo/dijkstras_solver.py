@@ -98,5 +98,7 @@ class Dijkstras(Solver):
         if is_new_maze:
             with open(self.config.output_file, "a") as file:
                 print("\n", file=file)
+                print(f"{self.config.entry_x},{self.config.entry_y}", file=file)
+                print(f"{self.config.exit_x},{self.config.exit_y}", file=file)
                 print(res, file=file)
         return path
