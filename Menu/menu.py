@@ -67,8 +67,8 @@ def menu_loop(config: Config) -> None:
               "             █")
         print("    █ 4: Show/Hide path (shortest)     8: Change time maze creation"
               "         █")
-        print("    █                                                          "
-              "             █")
+        print(f"    █                                     (current time: {gen_time})"
+              "              █")
         print("    █ q: Exit                                                  "
               "             █")
         print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"
@@ -206,7 +206,7 @@ def menu_loop(config: Config) -> None:
         elif request == '8':
             print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
             print("    █                                  █")
-            print("    █ ENTER NEW Time (default = 0.05): █")
+            print("    █ ENTER NEW Time (ex = 0.05):      █")
             print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
             request: str = input(f"{t.yellow} --->  {t.end}")
             try:
