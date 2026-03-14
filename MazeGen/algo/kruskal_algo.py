@@ -1,4 +1,6 @@
 from utils.models import Config, Cell, Maze, Grid
+import os
+import time
 
 import random
 
@@ -65,7 +67,7 @@ class Kruskal(Maze):
     def get_exit(self, cell: Cell) -> Cell:
         return cell
 
-    def generate(self, animated: bool) -> Grid:
+    def generate(self, animated: bool, color: str | None, color_42: str | None) -> Grid:
 
         config = self.config
         grid: Grid = self.init_maze(self.config)
@@ -113,6 +115,9 @@ class Kruskal(Maze):
                         if cell.set_id == bad_id:
                             cell.set_id = good_id
                 if animated:
-                    
+                    from MazeGen.generator import MazeGenerator
+                    os.system('clear')
+                    MazeGenerator.draw_maze(grid, config, color, color_42, path=None)
+                    time.sleep(0.05)
 
         return grid

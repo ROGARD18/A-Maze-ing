@@ -1,4 +1,4 @@
-from utils.models import Config, Grid, Cell
+from utils.models import Config, Grid, Cell, Grid
 from MazeGen.algo.kruskal_algo import Kruskal
 
 from abc import abstractmethod, ABC
@@ -28,7 +28,7 @@ class MazeGenerator():
 
         if algorithm == "kruskal":
             self.maze = Kruskal(config)
-            self.grid: Grid =  self.maze.generate(animated=False)
+            self.grid: Grid =  self.maze.generate(animated=False, color=None, color_42=None)
         # elif algorithm == "prism":
         #     self.grid: Maze = Kruskal.generate()
         # elif algorithm == "wilson":
@@ -85,12 +85,13 @@ class MazeGenerator():
 
         return file_name
 
-    def draw_maze(self, color: str, color_42: str, path: list[Cell] | None
+    @staticmethod
+    def draw_maze(maze: Grid, config: Config, color: str, color_42: str, path: list[Cell] | None
                   ) -> None:
 
         def make_first_maze_line(line: str, color: str, color_end: str,
-                                 color_42: str, path: list[Cell] | None
-                                 ) -> list[str]:
+                                 color_42: str, path: list[Cell] | None,
+                                 config: Config) -> list[str]:
             """
             Use to create the first cell line of maze.
             Args:
@@ -109,15 +110,15 @@ class MazeGenerator():
                 line_res: str = '█'
                 index: int = 0
                 for cell in line:
-                    if (index == self.config.entry_x and
-                       0 == self.config.entry_y):
+                    if (index == config.entry_x and
+                       0 == config.entry_y):
                         line_res += (
                             f"\u001b[0;33m████{color_end}")
                     elif path and cell in path:
                         line_res += (f"\u001b[0;37m████{color_end}")
 
-                    elif (index == self.config.exit_x and
-                            0 == self.config.exit_y):
+                    elif (index == config.exit_x and
+                            0 == config.exit_y):
                         line_res += (f"\u001b[0;31m████{color_end}")
                     elif (cell.west == 1 and cell.east == 1 and cell.south == 1
                             and cell.north == 1):
@@ -165,15 +166,15 @@ class MazeGenerator():
             index: int = 0
 
             for cell in line:
-                if index == self.config.entry_x and \
-                 line_index == self.config.entry_y:
+                if index == config.entry_x and \
+                 line_index == config.entry_y:
                     line_res += (
                         f"\u001b[0;33m████{color_end}")
                 elif path and cell in path:
                     line_res += (f"\u001b[0;37m████{color_end}")
 
-                elif index == self.config.exit_x and \
-                        line_index == self.config.exit_y:
+                elif index == config.exit_x and \
+                        line_index == config.exit_y:
                     line_res += (
                         f"\u001b[0;31m████{color_end}")
 
@@ -209,11 +210,11 @@ class MazeGenerator():
 
         line_index: int = 0
         # print first line of maze
-        maze = self.grid
         # print("len of maze in draw_maze:", len(maze))
 
+        
         for line in make_first_maze_line(maze[0], color, color_end,
-                                         color_42, path=path):
+                                         color_42, path=path, config=config):
             print(f"{color}{line}{color_end}")
         first_line: str = maze[0]
 

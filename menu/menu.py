@@ -1,5 +1,5 @@
 from MazeGen.generator import MazeGenerator
-from utils.models import Config
+from utils.models import Config, Grid
 from random import choice
 from MazeGen.algo.dijkstras_solver import Dijkstras
 import os
@@ -33,7 +33,9 @@ def menu_loop(config: Config) -> None:
         solver = Dijkstras(config, maze_gen)
         solver_path = solver.solve()
         # solver_path = solver_path[:-1]
-        maze_gen.draw_maze(color, color_42, path)
+        maze: Grid = maze_gen.grid
+        # print(maze)
+        maze_gen.draw_maze(maze, config, color, color_42, path)
         print("\n\n            __        _  _   __   ____  ____      __  __ "
               "_   "
               "___ \n"
@@ -200,4 +202,4 @@ def menu_loop(config: Config) -> None:
             pass
 
         elif request == '8':
-            maze_gen.maze.generate(animated=True)
+            maze_gen.maze.generate(animated=True, color=color, color_42=color_42)
