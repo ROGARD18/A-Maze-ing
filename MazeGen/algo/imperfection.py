@@ -15,8 +15,8 @@ def get_neighbors(grid: Grid, cell: Cell, config: Config) -> list[Cell]:
         return neighbors
 
 def imperfect_maze(maze_gen: MazeGenerator, config: Config, path: list[Cell]) -> Grid:
-    
-    cells_42: list[Cell] = super().make_42(config, grid)
+
+    cells_42: list[Cell] = super().make_42(config, grid) # type: ignore
     edges: list[tuple[tuple[int, int], tuple[int, int], "str"]] = []
     
     for cell in path:
