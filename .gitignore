@@ -3,3 +3,5 @@ amazeing_env
 amazeing_venv
 __pycache__
 .vscode
+config.txt
+output_file.txt
