@@ -71,26 +71,26 @@ class Dijkstras(Solver):
         current_cell: Cell | None = self.exit_cell
         while current_cell is not None:
             path.append(current_cell)
-            current_cell: Cell = prev[current_cell]
+            current_cell = prev[current_cell]
 
         path.reverse()
         res: str = ""
         for i, cell in enumerate(path):
             if i == 0:
-                prev: Cell = cell
+                prev_cell = cell
                 continue
-            if cell.y > prev.y:
+            if cell.y > prev_cell.y:
                 res += "S"
-                prev = cell
-            elif cell.y < prev.y:
+                prev_cell = cell
+            elif cell.y < prev_cell.y:
                 res += "N"
-                prev = cell
-            elif cell.x > prev.x:
+                prev_cell = cell
+            elif cell.x > prev_cell.x:
                 res += "E"
-                prev = cell
-            elif cell.x < prev.x:
+                prev_cell = cell
+            elif cell.x < prev_cell.x:
                 res += "W"
-                prev = cell
+                prev_cell = cell
         if is_new_maze:
             with open(self.config.output_file, "a") as file:
                 print("\n", file=file)

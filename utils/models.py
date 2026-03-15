@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, ValidationError, \
-    model_validator, ConfigDict
+from pydantic import BaseModel, Field, ValidationError
+from pydantic import model_validator, ConfigDict
 from typing_extensions import Self, Optional
 from abc import ABC, abstractmethod
 
@@ -82,8 +82,8 @@ class Maze(ABC):
         pass
 
     @abstractmethod
-    def generate(self, animated: bool, color: str | None, color_42: str | None,
-                 gen_time: float | None) -> Grid:
+    def generate(self, animated: bool, color: str, color_42: str,
+                 gen_time: float) -> Grid:
         pass
 
     def make_42(self, config: Config, grid: Grid) -> list[Cell]:

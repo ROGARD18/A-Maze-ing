@@ -32,7 +32,7 @@ class Kruskal(Maze):
                         is_exit=False
                         )
                 elif i == config.exit_y and j == config.exit_x:
-                    cell: Cell = Cell(
+                    cell = Cell(
                         west=1,
                         east=1,
                         south=1,
@@ -44,7 +44,7 @@ class Kruskal(Maze):
                         is_exit=True,
                     )
                 else:
-                    cell: Cell = Cell(
+                    cell = Cell(
                         west=1,
                         east=1,
                         south=1,
@@ -67,8 +67,8 @@ class Kruskal(Maze):
     def get_exit(self, cell: Cell) -> Cell:
         return cell
 
-    def generate(self, animated: bool, color: str | None, color_42: str | None,
-                 gen_time: float | None) -> Grid:
+    def generate(self, animated: bool, color: str, color_42: str,
+                 gen_time: float) -> Grid:
 
         config = self.config
         grid: Grid = self.init_maze(self.config)
@@ -119,7 +119,7 @@ class Kruskal(Maze):
                     from MazeGen.generator import MazeGenerator
                     os.system('clear')
                     MazeGenerator.draw_maze(grid, config, color,
-                                            color_42, path=None)
+                                            color_42, None)
                     time.sleep(gen_time)
 
         return grid

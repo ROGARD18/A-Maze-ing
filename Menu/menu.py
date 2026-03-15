@@ -28,13 +28,13 @@ def menu_loop(config: Config) -> None:
                                          algorithm="kruskal",
                                          color=color,
                                          color_42=color_42,
-                                         gen_time=gen_time)
-
+                                         gen_time=gen_time
+                                         )
                 maze_gen.create_output_file()
             except Exception as e:
-                print(e)
-                print("Erreur in menu_loop in flag_first")
+                print(f"{e}")
                 return
+
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)
             path = path[:-1]
@@ -84,14 +84,14 @@ def menu_loop(config: Config) -> None:
               "▄▄▄▄▄▄▄▄▄▄▄▄▄█")
         print("")
 
-        request: str = input(f"{t.yellow} --->  {t.end}")
+        request = input(f"{t.yellow} --->  {t.end}")
         if request == 'q':
             break
 
         elif request == '1':
             new_color = choice(colors_list)
             while new_color is color:
-                new_color: str = choice(colors_list)
+                new_color = choice(colors_list)
             color = new_color
 
         elif request == '2':
@@ -125,73 +125,73 @@ def menu_loop(config: Config) -> None:
             print("    █                          █")
             print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n")
 
-            request: str = input(f"{t.yellow} --->  {t.end}")
+            request = input(f"{t.yellow} --->  {t.end}")
             while request != '1' and request != '2':
                 if ' ' in request:
                     print("No space in request !")
                 else:
                     print(f"{request} is INVALID ! Need 1 OR 2")
-                request: str = input(f"{t.yellow} --->  {t.end}")
+                request = input(f"{t.yellow} --->  {t.end}")
 
             if request == '1':
                 print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
                 print("    █                   █")
                 print("    █ ENTER NEW WIDTH:  █")
                 print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-                request: str = input(f"{t.yellow} --->  {t.end}")
+                request = input(f"{t.yellow} --->  {t.end}")
                 try:
-                    request = int(request)
-                    if request < 9:
+                    request_int: int = int(request)
+                    if request_int < 9:
                         raise ValueError
                     width_valid: bool = True
                 except Exception:
                     print(f"The input: {request} is not a number or"
                           "not superieur to 8")
-                    width_valid: bool = False
+                    width_valid = False
 
                 while not width_valid:
                     try:
-                        request: str = input(f"{t.yellow} --->  {t.end}")
-                        request = int(request)
-                        if request < 9:
+                        request = input(f"{t.yellow} --->  {t.end}")
+                        request_int = int(request)
+                        if request_int < 9:
                             raise ValueError
                         width_valid = True
                     except Exception:
                         print(f"The input: {request} is not a number or"
                               "not superieur to 8")
 
-                width: int = int(request)
-                height: None = None
+                width: int | None = int(request)
+                height: int | None = None
 
             elif request == '2':
                 print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
                 print("    █                   █")
                 print("    █ ENTER NEW HEIGHT: █")
                 print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-                request: str = input(f"{t.yellow} --->  {t.end}")
+                request = input(f"{t.yellow} --->  {t.end}")
                 try:
-                    request = int(request)
-                    if request < 7:
+                    request_int = int(request)
+                    if request_int < 7:
                         raise ValueError
-                    width_valid: bool = True
+                    width_valid = True
                 except Exception:
                     print(f"The input: {request} is not a number or"
                           "not superieur to 6")
-                    width_valid: bool = False
+                    width_valid = False
 
                 while not width_valid:
                     try:
-                        request: str = input(f"{t.yellow} --->  {t.end}")
-                        request = int(request)
-                        if request < 9:
+                        request = input(f"{t.yellow} --->  {t.end}")
+                        request_int = int(request)
+                        if request_int < 9:
                             raise ValueError
                         width_valid = True
                     except Exception:
                         print(f"The input: {request} is not a number or"
                               "not superieur to 8")
 
-                height: int = int(request)
-                width: None = None
+                height = int(request)
+                width = None
             if height:
                 config.height = height
                 config.exit_y = height - 1
@@ -219,17 +219,17 @@ def menu_loop(config: Config) -> None:
             print("    █                                  █")
             print("    █ ENTER NEW Time (ex = 0.05):      █")
             print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-            request: str = input(f"{t.yellow} --->  {t.end}")
+            request = input(f"{t.yellow} --->  {t.end}")
             try:
                 request = request
-                width_valid: bool = True
+                width_valid = True
             except Exception:
                 print(f"The input: {request} is not a number")
-                width_valid: bool = False
+                width_valid = False
 
             while not width_valid:
                 try:
-                    request: str = input(f"{t.yellow} --->  {t.end}")
+                    request = input(f"{t.yellow} --->  {t.end}")
                     request = request
                     width_valid = True
                 except Exception:
