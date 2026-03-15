@@ -32,9 +32,8 @@ def menu_loop(config: Config) -> None:
                 print("Erreur in menu_loop in flag_first")
                 return
             solver = Dijkstras(config, maze_gen)
-            solver_path = solver.solve(is_new_maze=True)
-        # solver_path = solver_path[:-1]
-        # print(maze)
+            path = solver.solve(is_new_maze=True)
+            path = path[:-1]
         maze: Grid = maze_gen.grid
         if not flag_first:
             if draw_path:
@@ -212,7 +211,7 @@ def menu_loop(config: Config) -> None:
             print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
             request: str = input(f"{t.yellow} --->  {t.end}")
             try:
-                request = float(request)
+                request = request
                 width_valid: bool = True
             except Exception:
                 print(f"The input: {request} is not a number")
@@ -221,8 +220,8 @@ def menu_loop(config: Config) -> None:
             while not width_valid:
                 try:
                     request: str = input(f"{t.yellow} --->  {t.end}")
-                    request = float(request)
+                    request = request
                     width_valid = True
                 except Exception:
                     print(f"The input: {request} is not a number")
-            gen_time = request
+            gen_time = float(request)
