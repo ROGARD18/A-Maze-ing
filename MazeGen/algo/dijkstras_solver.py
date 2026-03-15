@@ -80,7 +80,6 @@ class Dijkstras(Solver):
         res: str = ""
         for i, cell in enumerate(path):
             if i == 0:
-                print("ici")
                 prev: Cell = cell
                 continue
             if cell.y > prev.y:

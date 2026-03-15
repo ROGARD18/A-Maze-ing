@@ -1,12 +1,8 @@
 from pydantic import ValidationError
-from dotenv import load_dotenv
-from os import getenv
 from random import seed, random
 from utils.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
-from MazeGen.generator import MazeGenerator
-from MazeGen.algo.dijkstras_solver import Dijkstras
 from Menu.menu import menu_loop
 
 
@@ -27,18 +23,16 @@ def main() -> None:
             raise ValueError("Error: try with config.txt to refere some"
                              " parameters for the maze.")
         print("Config acquired")
-    except (ValidationError, KeyError) as e:
+    except (ValidationError, KeyError, ValidationError, ValueError) as e:
+        if type(e).__name__ == "ValueError":
+            print("Seed should be an integer or a float number")
+            return
         print(f"{type(e).__name__}: {e}")
         return
-    load_dotenv()
-    maze_seed: str | None = getenv("seed")
-    if maze_seed:
-        seed(float(maze_seed))
+    if config.seed:
+        seed(float(config.seed))
     else:
-        maze_seed = str(random())
-        seed(float(maze_seed))
-    print(f"seed: {maze_seed}")
-
+        seed(random())
     menu_loop(config)
 
 

@@ -7,6 +7,7 @@ def parsing() -> Config:
 
     config_dict: dict[str, Any] = {}
     is_algo_present: bool = False
+    is_seed_present: bool = False
 
     if (len(sys.argv) < 2):
         raise NoArgumentError("Error: try with config.txt to refere some"
@@ -28,12 +29,13 @@ def parsing() -> Config:
             key, value = line.split('=')
             if (key == 'ALGORITHM'):
                 is_algo_present = True
+            if (key == 'SEED'):
+                is_seed_present = True
             config_dict.update({key: value})
 
-    if is_algo_present:
-        algo = config_dict['ALGORITHM']
-    else:
-        algo = "kruskal"
+    algo = config_dict['ALGORITHM'] if is_algo_present else "kruskal"
+    seed = float(config_dict['SEED']) if is_seed_present else None
+
     config_obj: Config = Config(
         width=config_dict['WIDTH'],
         height=config_dict['HEIGHT'],
@@ -43,7 +45,8 @@ def parsing() -> Config:
         exit_y=config_dict['EXIT_Y'],
         output_file=config_dict['OUTPUT_FILE'],
         perfect=config_dict['PERFECT'],
-        algorithm=algo
+        algorithm=algo,
+        seed=seed
     )
 
     return config_obj

@@ -13,9 +13,10 @@ class Config(BaseModel):
     entry_y: int = Field(ge=0, le=1000)
     exit_x: int = Field(ge=0, le=1000)
     exit_y: int = Field(ge=0, le=1000)
-    output_file: str = Field(min_length=5, max_length=20)
+    output_file: str = Field(min_length=5, max_length=30)
     perfect: bool = Field(default=False)
     algorithm: str = Field()
+    seed: float | None = Field(default=None)
 
     @model_validator(mode="after")
     def check_points(self) -> Self:
