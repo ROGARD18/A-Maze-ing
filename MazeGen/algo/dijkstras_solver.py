@@ -17,9 +17,6 @@ class Dijkstras(Solver):
         self.grid: list[list[Cell]] = maze.grid
         self.config: Config = config
 
-        # print(self.entry_cell.set_id)`
-        # print(self.exit_cell.set_id)`
-
     def get_neighbors(self, cell: Cell) -> list[Cell]:
         """Return accessible neighbors of a cell (walls = 0 means open)"""
         neighbors: list[Cell] = []
@@ -75,9 +72,9 @@ class Dijkstras(Solver):
 
         path.reverse()
         res: str = ""
+        prev_cell = path[0]
         for i, cell in enumerate(path):
             if i == 0:
-                prev_cell = cell
                 continue
             if cell.y > prev_cell.y:
                 res += "S"
