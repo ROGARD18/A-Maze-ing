@@ -19,7 +19,7 @@ clean:
 	@rm -f $(OUTPUT_FILE)
 	@rm -f **/**mypy_cache
 	@rm -rf **/**__pycache__
-	@rm -rf .mypy_cache.PHONY: balayer
+	@rm -rf .mypy_cache
 	@echo "  ______   __"
 	@echo " /      \ /  |                                                _"
 	@echo "/000000  |00 |  ______    ______   _______                   //"
@@ -30,8 +30,8 @@ clean:
 	@echo "00    00/ 00 |00       |00    00 |00 |  00 |            //"
 	@echo " 000000/  00/  0000000/  0000000/ 00/   00/            //"
 	@echo "                                              ________//_______"
-	@echo "                                             |################|  "
-	@echo "                                              ################  "
+	@echo "                                             |################|"
+	@echo "                                              ################ "
 	@echo ""
 	@echo "                                         . : .  *    ."
 	@echo "                                        . : *. * . : * . ."
