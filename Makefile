@@ -2,26 +2,28 @@ VENV_NAME := a_maze_ing_env
 NAME := a_maze_ing.py
 CONFIG_FILE := config.txt
 OUTPUT_FILE := maze.txt
+FLAKE8 := poetry run flake8
+MYPY := poetry run mypy
+PYTHON := poetry run python3
 
 install:
-	python3 -m venv $(VENV_NAME)
-	source a_maze_ing_venv/bin/source
-	pip -r requierements.txt
+	poetry install
 
 run:
-	python3 $(NAME) $(CONFIG_FILE)
+	$(PYTHON) $(NAME) $(CONFIG_FILE)
 
 debug:
 
 clean:
 	rm $(OUTPUT_FILE)
-	mypy_cache
-	__pycache__
+	rm -f **/**mypy_cache
+	rm -rf **/**__pycache__
 
 lint:
-	flake8 . && mypy . --warn-return-any \
-	--warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs \
-	--check-untyped-defs
+	flake8 .
+	mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports\
+	--disallow-untyped-defs --check-untyped-defs
 
 lint-strict:
-	flake8 . && mypy . --strict
+	flake8 .
+	mypy . --strict
