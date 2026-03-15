@@ -84,7 +84,9 @@ class MazeGenerator():
                         file.write('F')
                     elif cell_walls == [-1, -1, -1, -1]:
                         file.write(' ')
-
+            print("\n", file=file)
+            print(f"{self.config.entry_x},{self.config.entry_y}", file=file)
+            print(f"{self.config.exit_x},{self.config.exit_y}", file=file)
         return file_name
 
     @staticmethod

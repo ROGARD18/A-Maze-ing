@@ -2,6 +2,7 @@ from MazeGen.generator import MazeGenerator
 from utils.models import Config, Grid
 from random import choice
 from MazeGen.algo.dijkstras_solver import Dijkstras
+from MazeGen.algo.imperfection import imperfect_maze
 import os
 from MazeGen.generator import Colors
 
@@ -23,27 +24,24 @@ def menu_loop(config: Config) -> None:
         os.system('clear')
 
         if flag_first:
-            try:
-                maze_gen = MazeGenerator(config=config,
-                                         algorithm="kruskal",
-                                         color=color,
-                                         color_42=color_42,
-                                         gen_time=gen_time
-                                         )
-                maze_gen.create_output_file()
-            except Exception as e:
-                print(f"{e}")
-                return
-
+            maze_gen = MazeGenerator(config=config,
+                                    algorithm="kruskal",
+                                    color=color,
+                                    color_42=color_42,
+                                    gen_time=gen_time)
+            maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path)
             path = path[:-1]
+
+        # Dessiner dans TOUS les cas (plus de `not flag_first`)
         maze: Grid = maze_gen.grid
-        if not flag_first:
-            if draw_path:
-                maze_gen.draw_maze(maze, config, color, color_42, path)
-            else:
-                maze_gen.draw_maze(maze, config, color, color_42, None)
+        if draw_path:
+            maze_gen.draw_maze(maze, config, color, color_42, path)
+        else:
+            maze_gen.draw_maze(maze, config, color, color_42, None)
+
         flag_first = False
         print("\n\n            __        _  _   __   ____  ____      __  __ "
               "_   "
@@ -102,11 +100,12 @@ def menu_loop(config: Config) -> None:
 
         elif request == '3':
             maze_gen = MazeGenerator(config=config, algorithm="kruskal",
-                                     color=color, color_42=color_42,
-                                     gen_time=gen_time)
+                                    color=color, color_42=color_42,
+                                    gen_time=gen_time)
             maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path)
             path = path[:-1]
 
         elif request == '4':
@@ -201,11 +200,12 @@ def menu_loop(config: Config) -> None:
             config.entry_x = 0
             config.entry_y = 0
             maze_gen = MazeGenerator(config=config,
-                                     algorithm="kruskal", color=color,
-                                     color_42=color_42, gen_time=gen_time)
+                             algorithm="kruskal", color=color,
+                             color_42=color_42, gen_time=gen_time)
             maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path)
             path = path[:-1]
 
         elif request == '6':
