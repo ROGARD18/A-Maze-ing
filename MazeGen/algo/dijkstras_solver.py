@@ -67,9 +67,6 @@ class Dijkstras(Solver):
                     prev[neighbor] = current
                     queue.append(neighbor)
 
-        # if prev[self.exit_cell] is None and self.exit_cell is not self.entry_cell:
-        #     return None
-
         path: list[Cell] = []
         current_cell: Cell | None = self.exit_cell
         while current_cell is not None:
@@ -97,7 +94,7 @@ class Dijkstras(Solver):
         if is_new_maze:
             with open(self.config.output_file, "a") as file:
                 print("\n", file=file)
-                print(f"{self.config.entry_x},{self.config.entry_y}", file=file)
-                print(f"{self.config.exit_x},{self.config.exit_y}", file=file)
+                print(f"{self.config.entry_x},{self.config.entry_y}", file)
+                print(f"{self.config.exit_x},{self.config.exit_y}", file)
                 print(res, file=file)
         return path

@@ -118,7 +118,8 @@ class Kruskal(Maze):
                 if animated:
                     from MazeGen.generator import MazeGenerator
                     os.system('clear')
-                    MazeGenerator.draw_maze(grid, config, color, color_42, path=None)
-                    time.sleep(0.01)
+                    MazeGenerator.draw_maze(grid, config, color,
+                                            color_42, path=None)
+                    time.sleep(gen_time)
 
         return grid

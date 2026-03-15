@@ -1,4 +1,4 @@
-from utils.models import Config, Grid, Cell, Grid
+from utils.models import Config, Grid, Cell
 from MazeGen.algo.kruskal_algo import Kruskal
 
 from abc import abstractmethod, ABC
@@ -21,7 +21,8 @@ class Colors:
 
 class MazeGenerator():
 
-    def __init__(self, config: Config, algorithm: str, color: str, color_42: str, gen_time: float) -> None:
+    def __init__(self, config: Config, algorithm: str, color: str,
+                 color_42: str, gen_time: float) -> None:
         self.config = config
         self.algorithm = algorithm
         self.grid: Grid = []
@@ -30,11 +31,10 @@ class MazeGenerator():
 
         if algorithm == "kruskal":
             self.maze = Kruskal(config)
-            self.grid: Grid =  self.maze.generate(animated=True, color=color, color_42=color_42, gen_time=gen_time)
-        # elif algorithm == "prism":
-        #     self.grid: Maze = Kruskal.generate()
-        # elif algorithm == "wilson":
-        #     self.grid: Maze = Kruskal.generate()
+            self.grid: Grid = self.maze.generate(animated=True,
+                                                 color=color,
+                                                 color_42=color_42,
+                                                 gen_time=gen_time)
 
     def create_output_file(self) -> str:
 
@@ -88,8 +88,8 @@ class MazeGenerator():
         return file_name
 
     @staticmethod
-    def draw_maze(maze: Grid, config: Config, color: str, color_42: str, path: list[Cell] | None
-                  ) -> None:
+    def draw_maze(maze: Grid, config: Config, color: str,
+                  color_42: str, path: list[Cell] | None) -> None:
 
         def make_first_maze_line(line: str, color: str, color_end: str,
                                  color_42: str, path: list[Cell] | None,
@@ -209,12 +209,8 @@ class MazeGenerator():
 
         # main
         color_end: str = "\u001b[0m"
-
         line_index: int = 0
-        # print first line of maze
-        # print("len of maze in draw_maze:", len(maze))
 
-        
         for line in make_first_maze_line(maze[0], color, color_end,
                                          color_42, path=path, config=config):
             print(f"{color}{line}{color_end}")
@@ -230,10 +226,15 @@ class MazeGenerator():
             print(f"{make_first_cell_line(line, previous, path, color)}")
             line_index += 1
             for _ in range(2):
-                print(f"{color}"
-                      f"{make_cell_middle_line(line_index, line,
-                                               color, color_42, path=path)}"
-                      f"{color_end}")
+                print(f"{color}", end="")
+                print(make_cell_middle_line(
+                    line_index,
+                    line,
+                    color,
+                    color_42,
+                    path=path),
+                    end="")
+                print(f"{color_end}")
             index += 1
 
         # print last line of maze

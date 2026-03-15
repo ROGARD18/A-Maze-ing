@@ -4,7 +4,6 @@ from random import choice
 from MazeGen.algo.dijkstras_solver import Dijkstras
 import os
 from MazeGen.generator import Colors
-from MazeGen.algo.kruskal_algo import Kruskal
 
 
 def menu_loop(config: Config) -> None:
@@ -25,7 +24,12 @@ def menu_loop(config: Config) -> None:
 
         if flag_first:
             try:
-                maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
+                maze_gen = MazeGenerator(config=config,
+                                         algorithm="kruskal",
+                                         color=color,
+                                         color_42=color_42,
+                                         gen_time=gen_time)
+
                 maze_gen.create_output_file()
             except Exception as e:
                 print(e)
@@ -68,9 +72,11 @@ def menu_loop(config: Config) -> None:
               "             █")
         print("    █                                                          "
               "             █")
-        print("    █ 4: Show/Hide path (shortest)     8: Change time maze creation"
+        print("    █ 4: Show/Hide path (shortest)     "
+              "8: Change time maze creation"
               "         █")
-        print(f"    █                                     (current time: {gen_time})"
+        print("    █                                     "
+              f"(current time: {gen_time})"
               "              █")
         print("    █ q: Exit                                                  "
               "             █")
@@ -95,7 +101,9 @@ def menu_loop(config: Config) -> None:
             color_42 = new_color_42
 
         elif request == '3':
-            maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
+            maze_gen = MazeGenerator(config=config, algorithm="kruskal",
+                                     color=color, color_42=color_42,
+                                     gen_time=gen_time)
             maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)
@@ -192,7 +200,9 @@ def menu_loop(config: Config) -> None:
                 config.exit_x = width - 1
             config.entry_x = 0
             config.entry_y = 0
-            maze_gen = MazeGenerator(config=config, algorithm="kruskal", color=color, color_42=color_42, gen_time=gen_time)
+            maze_gen = MazeGenerator(config=config,
+                                     algorithm="kruskal", color=color,
+                                     color_42=color_42, gen_time=gen_time)
             maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
             path = solver.solve(is_new_maze=True)

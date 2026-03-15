@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field, ValidationError, model_validator, ConfigDict
+from pydantic import BaseModel, Field, ValidationError, \
+    model_validator, ConfigDict
 from typing_extensions import Self, Optional
 from abc import ABC, abstractmethod
+
 
 class NoArgumentError(Exception):
     pass

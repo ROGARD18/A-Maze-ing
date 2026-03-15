@@ -7,23 +7,23 @@ MYPY := poetry run mypy
 PYTHON := poetry run python3
 
 install:
-	poetry install
+	@poetry install
+	
 
 run:
-	$(PYTHON) $(NAME) $(CONFIG_FILE)
+	@$(PYTHON) $(NAME) $(CONFIG_FILE)
 
 debug:
 
 clean:
-	rm $(OUTPUT_FILE)
-	rm -f **/**mypy_cache
-	rm -rf **/**__pycache__
+	@rm $(OUTPUT_FILE)
+	@rm -f **/**mypy_cache
+	@rm -rf **/**__pycache__
 
 lint:
-	flake8 .
-	mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports\
-	--disallow-untyped-defs --check-untyped-defs
+	@flake8 .
+	@mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 lint-strict:
-	flake8 .
-	mypy . --strict
+	@flake8 .
+	@mypy . --strict
