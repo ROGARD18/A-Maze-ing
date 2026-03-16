@@ -30,7 +30,7 @@ class Dijkstras(Solver):
             neighbors.append(self.grid[cell.y + 1][cell.x])
         return neighbors
 
-    def solve(self, is_new_maze: bool) -> list[Cell]:
+    def solve(self, is_new_maze: bool) -> tuple[list[Cell], str]:
         dist: dict[Cell, float] = {}
         prev: dict[Cell, Cell | None] = {}
 
@@ -88,7 +88,4 @@ class Dijkstras(Solver):
             elif cell.x < prev_cell.x:
                 res += "W"
                 prev_cell = cell
-        if is_new_maze:
-            with open(self.config.output_file, "a") as file:
-                print(res, file=file, end="")
-        return path
+        return (path, res)

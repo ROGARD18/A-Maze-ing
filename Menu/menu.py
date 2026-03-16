@@ -29,14 +29,15 @@ def menu_loop(config: Config) -> None:
                                     color=color,
                                     color_42=color_42,
                                     gen_time=gen_time)
-            maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
-            path = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path)
-            path = path[:-1]
+            path_tuple = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path_tuple[0])
+            path_tuple = solver.solve(is_new_maze=True)
+            maze_gen.create_output_file(path_tuple[1])
+            path = path_tuple[0][:-1]
 
-        # Dessiner dans TOUS les cas (plus de `not flag_first`)
         maze: Grid = maze_gen.grid
+        os.system('clear')
         if draw_path:
             maze_gen.draw_maze(maze, config, color, color_42, path)
         else:
@@ -102,11 +103,12 @@ def menu_loop(config: Config) -> None:
             maze_gen = MazeGenerator(config=config, algorithm="kruskal",
                                     color=color, color_42=color_42,
                                     gen_time=gen_time)
-            maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
-            path = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path)
-            path = path[:-1]
+            path_tuple = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path_tuple[0])
+            path_tuple = solver.solve(is_new_maze=True)
+            maze_gen.create_output_file(path_tuple[1])
+            path = path_tuple[0][:-1]
 
         elif request == '4':
             if draw_path:
@@ -191,6 +193,7 @@ def menu_loop(config: Config) -> None:
 
                 height = int(request)
                 width = None
+
             if height:
                 config.height = height
                 config.exit_y = height - 1
@@ -202,11 +205,12 @@ def menu_loop(config: Config) -> None:
             maze_gen = MazeGenerator(config=config,
                              algorithm="kruskal", color=color,
                              color_42=color_42, gen_time=gen_time)
-            maze_gen.create_output_file()
             solver = Dijkstras(config, maze_gen)
-            path = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path)
-            path = path[:-1]
+            path_tuple = solver.solve(is_new_maze=True)
+            imperfect_maze(maze_gen, config, path_tuple[0])
+            path_tuple = solver.solve(is_new_maze=True)
+            maze_gen.create_output_file(path_tuple[1])
+            path = path_tuple[0][:-1]
 
         elif request == '6':
             pass

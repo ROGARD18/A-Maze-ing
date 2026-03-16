@@ -38,11 +38,12 @@ def break_wall(cell_one: Cell, cell_two: Cell) -> None:
 
 
 def imperfect_maze(
-    maze_gen: MazeGenerator, config: Config, path: list[Cell], nb_breaks: int = 5
+    maze_gen: MazeGenerator, config: Config, path: list[Cell]
 ) -> Grid:
     if config.perfect:
         return maze_gen.grid
 
+    nb_breaks = len(path) // 2
     grid = maze_gen.grid
     cells_42: list[Cell] = maze_gen.maze.make_42(config, grid)
     breakable: list[tuple[Cell, Cell]] = []
@@ -59,14 +60,14 @@ def imperfect_maze(
     for cell_one, cell_two in breakable:
         if broken >= nb_breaks:
             break
-        if _wall_exists(cell_one, cell_two):
+        if wall_exists(cell_one, cell_two):
             break_wall(cell_one, cell_two)
             broken += 1
 
     return grid
 
 
-def _wall_exists(cell_one: Cell, cell_two: Cell) -> bool:
+def wall_exists(cell_one: Cell, cell_two: Cell) -> bool:
     if cell_two.x == cell_one.x + 1:
         return cell_one.east == 1
     elif cell_two.x == cell_one.x - 1:

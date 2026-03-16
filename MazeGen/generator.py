@@ -36,7 +36,7 @@ class MazeGenerator():
                                            color_42=color_42,
                                            gen_time=gen_time)
 
-    def create_output_file(self) -> str:
+    def create_output_file(self, path: str) -> str:
 
         flag_first: bool = True
         file_name: str = self.config.output_file
@@ -87,6 +87,7 @@ class MazeGenerator():
             print("\n", file=file)
             print(f"{self.config.entry_x},{self.config.entry_y}", file=file)
             print(f"{self.config.exit_x},{self.config.exit_y}", file=file)
+            print(path, file=file, end="")
         return file_name
 
     @staticmethod
@@ -254,5 +255,5 @@ class Solver(ABC):
         pass
 
     @abstractmethod
-    def solve(self, is_new_maze: bool) -> list[Cell]:
+    def solve(self, is_new_maze: bool) -> tuple[list[Cell], str]:
         pass
