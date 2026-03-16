@@ -1,4 +1,3 @@
-from pydantic import ValidationError
 from random import seed, random
 from utils.models import Config
 from utils.check_dep import check_dep
@@ -7,6 +6,10 @@ from Menu.menu import menu_loop
 
 
 def main() -> None:
+    try:
+        from pydantic import ValidationError
+    except ModuleNotFoundError:
+        print("Try make install before make run.")
     config: Config | None = None
     try:
         print("Checking if all dependencies are installed...")

@@ -159,6 +159,9 @@ class MazeGenerator():
                     line_res += f'{color}█{Colors.end}'
                 # elif path and cell in path:
                 #     line_res += f"{Colors.white}█{Colors.end}"
+                elif (prev_cell.east == 0 and cell.east == 0
+                      and cell.north == 0):
+                    line_res += ' '
                 else:
                     line_res += f'{color}▄{Colors.end}'
                 index += 1

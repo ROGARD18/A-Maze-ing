@@ -25,10 +25,10 @@ def menu_loop(config: Config) -> None:
 
         if flag_first:
             maze_gen = MazeGenerator(config=config,
-                                    algorithm="kruskal",
-                                    color=color,
-                                    color_42=color_42,
-                                    gen_time=gen_time)
+                                     algorithm="kruskal",
+                                     color=color,
+                                     color_42=color_42,
+                                     gen_time=gen_time)
             solver = Dijkstras(config, maze_gen)
             path_tuple = solver.solve(is_new_maze=True)
             imperfect_maze(maze_gen, config, path_tuple[0])
@@ -101,8 +101,8 @@ def menu_loop(config: Config) -> None:
 
         elif request == '3':
             maze_gen = MazeGenerator(config=config, algorithm="kruskal",
-                                    color=color, color_42=color_42,
-                                    gen_time=gen_time)
+                                     color=color, color_42=color_42,
+                                     gen_time=gen_time)
             solver = Dijkstras(config, maze_gen)
             path_tuple = solver.solve(is_new_maze=True)
             imperfect_maze(maze_gen, config, path_tuple[0])
@@ -203,8 +203,8 @@ def menu_loop(config: Config) -> None:
             config.entry_x = 0
             config.entry_y = 0
             maze_gen = MazeGenerator(config=config,
-                             algorithm="kruskal", color=color,
-                             color_42=color_42, gen_time=gen_time)
+                                     algorithm="kruskal", color=color,
+                                     color_42=color_42, gen_time=gen_time)
             solver = Dijkstras(config, maze_gen)
             path_tuple = solver.solve(is_new_maze=True)
             imperfect_maze(maze_gen, config, path_tuple[0])
