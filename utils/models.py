@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 from pydantic import model_validator, ConfigDict
 from typing_extensions import Self, Optional
 from abc import ABC, abstractmethod
@@ -23,28 +23,79 @@ class Config(BaseModel):
     @model_validator(mode="after")
     def check_points(self) -> Self:
         if not self.output_file.endswith(".txt"):
-            raise ValidationError("The output file have to be a .txt file.")
+            raise ValueError("The output file have to be a .txt file.")
 
         if self.entry_x == self.exit_x and self.entry_y == self.exit_y:
-            raise ValidationError("Error: Entry et Exit are the same points.")
+            raise ValueError("Entry and Exit cannot be the same point.")
 
         if self.entry_x > self.width - 1 or self.entry_y > self.height - 1:
-            raise ValidationError(
-                "Error: Entry point is outside the area of the grid."
+            raise ValueError(
+                f"Entry ({self.entry_x},{self.entry_y}) is outside the grid "
+                f"({self.width}x{self.height})."
             )
 
         if self.exit_x > self.width - 1 or self.exit_y > self.height - 1:
-            raise ValidationError("Error: Exit point is outside the area of"
-                                  "the maze.")
+            raise ValueError(
+                f"Exit ({self.exit_x},{self.exit_y}) is outside the grid "
+                f"({self.width}x{self.height})."
+            )
 
         return self
 
     @model_validator(mode="after")
+    def check_not_in_42(self) -> Self:
+        cells_42_coords = self.get_42_coords()
+        if (self.entry_x, self.entry_y) in cells_42_coords:
+            raise ValueError(
+                f"Entry ({self.entry_x},{self.entry_y}) is inside the 42 zone."
+            )
+        if (self.exit_x, self.exit_y) in cells_42_coords:
+            raise ValueError(
+                f"Exit ({self.exit_x},{self.exit_y}) is inside the 42 zone."
+            )
+        return self
+
+    def get_42_coords(self) -> list[tuple[int, int]]:
+        w = self.width
+        h = self.height
+        coords: list[tuple[int, int]] = []
+
+        coords.append((w // 2 - 1, h // 2))
+        coords.append((w // 2 - 2, h // 2))
+        coords.append((w // 2 - 3, h // 2))
+        coords.append((w // 2 - 3, h // 2 - 1))
+        coords.append((w // 2 - 3, h // 2 - 2))
+
+        coords.append((w // 2 - 1, h // 2 + 1))
+        coords.append((w // 2 - 1, h // 2 + 2))
+
+        coords.append((w // 2 + 1, h // 2))
+        coords.append((w // 2 + 2, h // 2))
+        coords.append((w // 2 + 3, h // 2))
+
+        coords.append((w // 2 + 1, h // 2 + 1))
+        coords.append((w // 2 + 1, h // 2 + 2))
+
+        coords.append((w // 2 + 1, h // 2 + 2))
+        coords.append((w // 2 + 2, h // 2 + 2))
+        coords.append((w // 2 + 3, h // 2 + 2))
+
+        coords.append((w // 2 + 3, h // 2 - 1))
+        coords.append((w // 2 + 3, h // 2 - 2))
+
+        coords.append((w // 2 + 1, h // 2 - 2))
+        coords.append((w // 2 + 2, h // 2 - 2))
+
+        return coords
+
+    @model_validator(mode="after")
     def is_valid_algorithm(self) -> Self:
         valid_algo: list[str] = ["kruskal", "prism", "wilson"]
-        if not (self.algorithm in valid_algo):
-            raise ValidationError("Please chose one of the following"
-                                  f"algorithm {valid_algo} or delete the key")
+        if self.algorithm not in valid_algo:
+            raise ValueError(
+                f"Invalid algorithm '{self.algorithm}'. "
+                f"Choose from {valid_algo} or remove the key."
+            )
         return self
 
 
