@@ -75,7 +75,6 @@ def imperfect_maze(maze_gen: MazeGenerator, config: Config, path: list[Cell]) ->
     grid = maze_gen.grid
     cells_42: list[Cell] = maze_gen.maze.make_42(config, grid)
 
-    # --- Phase 1 : casser des murs entre path et ses voisins (comportement original) ---
     nb_breaks_path = len(path) // 2
     breakable_path: list[tuple[Cell, Cell]] = []
 
@@ -94,8 +93,6 @@ def imperfect_maze(maze_gen: MazeGenerator, config: Config, path: list[Cell]) ->
             break_wall(cell_one, cell_two)
             broken += 1
 
-    # --- Phase 2 : casser des murs aléatoires dans toute la grille (hors cells_42) ---
-    # Environ 15% des cellules de la grille pour un aspect "imparfait réaliste"
     total_cells = config.width * config.height
     nb_breaks_grid = max(1, int(total_cells * 0.15))
 
@@ -106,7 +103,6 @@ def imperfect_maze(maze_gen: MazeGenerator, config: Config, path: list[Cell]) ->
                 continue
             for neighbor in get_all_neighbors(grid, cell, config):
                 if neighbor not in cells_42:
-                    # Éviter les doublons (A,B) et (B,A)
                     if cell.x < neighbor.x or cell.y < neighbor.y:
                         breakable_grid.append((cell, neighbor))
 
