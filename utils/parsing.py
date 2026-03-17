@@ -23,8 +23,10 @@ def parsing() -> Config:
             if len(parts) != 2 or ',' not in parts[1]:
                 raise ValueError("ENTRY must be in format ENTRY=x,y")
             x, y = parts[1].split(',')
-            if not x.strip().lstrip('-').isdigit() or not y.strip().lstrip('-').isdigit():
-                raise ValueError(f"ENTRY coordinates must be integers, got: {parts[1]}")
+            if (not x.strip().lstrip('-').isdigit()
+                    or not y.strip().lstrip('-').isdigit()):
+                raise ValueError(
+                    f"ENTRY coordinates must be integers, got: {parts[1]}")
             config_dict.update({'ENTRY_X': int(x.strip())})
             config_dict.update({'ENTRY_Y': int(y.strip())})
         elif 'EXIT' in line:
@@ -32,8 +34,10 @@ def parsing() -> Config:
             if len(parts) != 2 or ',' not in parts[1]:
                 raise ValueError("EXIT must be in format EXIT=x,y")
             x, y = parts[1].split(',')
-            if not x.strip().lstrip('-').isdigit() or not y.strip().lstrip('-').isdigit():
-                raise ValueError(f"EXIT coordinates must be integers, got: {parts[1]}")
+            if (not x.strip().lstrip('-').isdigit()
+                    or not y.strip().lstrip('-').isdigit()):
+                raise ValueError(
+                    f"EXIT coordinates must be integers, got: {parts[1]}")
             config_dict.update({'EXIT_X': int(x.strip())})
             config_dict.update({'EXIT_Y': int(y.strip())})
         else:
@@ -48,7 +52,8 @@ def parsing() -> Config:
                 is_seed_present = True
             config_dict.update({key: value})
 
-    required_keys = ['WIDTH', 'HEIGHT', 'ENTRY_X', 'ENTRY_Y', 'EXIT_X', 'EXIT_Y', 'OUTPUT_FILE', 'PERFECT']
+    required_keys = ['WIDTH', 'HEIGHT', 'ENTRY_X', 'ENTRY_Y',
+                     'EXIT_X', 'EXIT_Y', 'OUTPUT_FILE', 'PERFECT']
     for k in required_keys:
         if k not in config_dict:
             raise KeyError(f"Missing required config key: '{k}'")

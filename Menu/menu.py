@@ -62,7 +62,8 @@ def menu_loop(config: Config) -> None:
               "height of maze    █")
         print("    █                                                          "
               "             █")
-        print("    █ 2: Change 42 color               6: Change time maze creation"
+        print("    █ 2: Change 42 color               "
+              "6: Change time maze creation"
               "         █")
         print("    █                                                          "
               "             █")

@@ -1,5 +1,5 @@
 from utils.models import Config, Cell, Maze, Grid
-import os
+import subprocess
 import time
 
 import random
@@ -117,7 +117,7 @@ class Kruskal(Maze):
                             cell.set_id = good_id
                 if animated:
                     from MazeGen.generator import MazeGenerator
-                    os.system('clear')
+                    subprocess.run(["clear"], check=False)
                     MazeGenerator.draw_maze(grid, config, color,
                                             color_42, None)
                     time.sleep(gen_time)

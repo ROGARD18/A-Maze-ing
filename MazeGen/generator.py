@@ -20,8 +20,10 @@ class Colors:
 
 class MazeGenerator:
 
-    def __init__(self, config: Config, algorithm: str, color: str,
-                 color_42: str, gen_time: float) -> None:
+    def __init__(
+        self, config: Config, algorithm: str,
+        color: str, color_42: str, gen_time: float
+    ) -> None:
         self.config = config
         self.algorithm = algorithm
         self.grid: Grid = []
@@ -32,6 +34,7 @@ class MazeGenerator:
 
         if algorithm == "kruskal":
             from MazeGen.algo.kruskal_algo import Kruskal
+
             self.maze = Kruskal(config)
             self.grid = self.maze.generate(
                 animated=True,
@@ -44,7 +47,8 @@ class MazeGenerator:
         return cell.north + cell.south + cell.east + cell.west
 
     def _break_wall(self, cell_one: Cell, cell_two: Cell) -> None:
-        if self._count_walls(cell_one) <= 1 or self._count_walls(cell_two) <= 1:
+        if (self._count_walls(cell_one) <= 1
+                or self._count_walls(cell_two) <= 1):
             return
         if cell_two.x == cell_one.x + 1:
             cell_one.east = 0
@@ -60,7 +64,8 @@ class MazeGenerator:
             cell_two.south = 0
 
     def _wall_exists(self, cell_one: Cell, cell_two: Cell) -> bool:
-        if self._count_walls(cell_one) <= 1 or self._count_walls(cell_two) <= 1:
+        if (self._count_walls(cell_one) <= 1
+                or self._count_walls(cell_two) <= 1):
             return False
         if cell_two.x == cell_one.x + 1:
             return cell_one.east == 1
@@ -72,18 +77,21 @@ class MazeGenerator:
             return cell_one.north == 1
         return False
 
-    def _get_neighbors_outside_path(self, cell: Cell,
+    def _get_neighbors_outside_path(self,
+                                    cell: Cell,
                                     path: list[Cell]) -> list[Cell]:
         neighbors: list[Cell] = []
         grid = self.grid
         config = self.config
         if cell.x > 0 and grid[cell.y][cell.x - 1] not in path:
             neighbors.append(grid[cell.y][cell.x - 1])
-        if cell.x < config.width - 1 and grid[cell.y][cell.x + 1] not in path:
+        if (cell.x < config.width - 1
+                and grid[cell.y][cell.x + 1] not in path):
             neighbors.append(grid[cell.y][cell.x + 1])
         if cell.y > 0 and grid[cell.y - 1][cell.x] not in path:
             neighbors.append(grid[cell.y - 1][cell.x])
-        if cell.y < config.height - 1 and grid[cell.y + 1][cell.x] not in path:
+        if (cell.y < config.height - 1
+                and grid[cell.y + 1][cell.x] not in path):
             neighbors.append(grid[cell.y + 1][cell.x])
         return neighbors
 
@@ -228,22 +236,33 @@ class MazeGenerator:
         file_name: str = self.config.output_file
         maze = self.grid
         wall_map: dict[tuple[int, ...], str] = {
-            (0,0,0,0): '0', (0,0,0,1): '1', (0,0,1,0): '2',
-            (0,0,1,1): '3', (0,1,0,0): '4', (0,1,0,1): '5',
-            (0,1,1,0): '6', (0,1,1,1): '7', (1,0,0,0): '8',
-            (1,0,0,1): '9', (1,0,1,0): 'A', (1,0,1,1): 'B',
-            (1,1,0,0): 'C', (1,1,0,1): 'D', (1,1,1,0): 'E',
-            (1,1,1,1): 'F', (-1,-1,-1,-1): ' ',
+            (0, 0, 0, 0): "0",
+            (0, 0, 0, 1): "1",
+            (0, 0, 1, 0): "2",
+            (0, 0, 1, 1): "3",
+            (0, 1, 0, 0): "4",
+            (0, 1, 0, 1): "5",
+            (0, 1, 1, 0): "6",
+            (0, 1, 1, 1): "7",
+            (1, 0, 0, 0): "8",
+            (1, 0, 0, 1): "9",
+            (1, 0, 1, 0): "A",
+            (1, 0, 1, 1): "B",
+            (1, 1, 0, 0): "C",
+            (1, 1, 0, 1): "D",
+            (1, 1, 1, 0): "E",
+            (1, 1, 1, 1): "F",
+            (-1, -1, -1, -1): " ",
         }
         with open(file_name, "w+") as file:
             for line in maze:
                 if flag_first:
                     flag_first = False
                 else:
-                    file.write('\n')
+                    file.write("\n")
                 for cell in line:
                     key = (cell.west, cell.south, cell.east, cell.north)
-                    file.write(wall_map.get(key, '?'))
+                    file.write(wall_map.get(key, "?"))
             print("\n", file=file)
             print(f"{self.config.entry_x},{self.config.entry_y}", file=file)
             print(f"{self.config.exit_x},{self.config.exit_y}", file=file)
@@ -251,19 +270,29 @@ class MazeGenerator:
         return file_name
 
     @staticmethod
-    def draw_maze(maze: Grid, config: Config, color: str,
-                  color_42: str, path: list[Cell] | None) -> None:
+    def draw_maze(
+        maze: Grid,
+        config: Config,
+        color: str,
+        color_42: str,
+        path: list[Cell] | None
+    ) -> None:
 
-        def make_first_maze_line(line: list[Cell], color: str, color_end: str,
-                                 color_42: str, path: list[Cell] | None,
-                                 config: Config) -> list[str]:
+        def make_first_maze_line(
+            line: list[Cell],
+            color: str,
+            color_end: str,
+            color_42: str,
+            path: list[Cell] | None,
+            config: Config,
+        ) -> list[str]:
             lines_first_cell: list[str] = []
-            line_res: str = '▄'
+            line_res: str = "▄"
             for cell in line:
-                line_res += '▄▄▄▄▄'
+                line_res += "▄▄▄▄▄"
             lines_first_cell.append(line_res)
             for _ in range(2):
-                line_res = '█'
+                line_res = "█"
                 index: int = 0
                 for cell in line:
                     if index == config.entry_x and 0 == config.entry_y:
@@ -272,44 +301,57 @@ class MazeGenerator:
                         line_res += f"\u001b[0;37m████{color_end}"
                     elif index == config.exit_x and 0 == config.exit_y:
                         line_res += f"\u001b[0;31m████{color_end}"
-                    elif (cell.west == 1 and cell.east == 1
-                          and cell.south == 1 and cell.north == 1):
+                    elif (
+                        cell.west == 1
+                        and cell.east == 1
+                        and cell.south == 1
+                        and cell.north == 1
+                    ):
                         line_res += f"{color_42}████{color_end}"
                     else:
-                        line_res += '    '
+                        line_res += "    "
                     if cell.east == 1:
-                        line_res += f'{color}█'
+                        line_res += f"{color}█"
                     elif path and cell in path and line[index + 1] in path:
-                        line_res += f'{Colors.white}█{Colors.end}'
+                        line_res += f"{Colors.white}█{Colors.end}"
                     else:
-                        line_res += ' '
+                        line_res += " "
                     index += 1
                 lines_first_cell.append(line_res)
             return lines_first_cell
 
-        def make_first_cell_line(line: list[Cell], previous_line: list[Cell],
-                                 path: list[Cell] | None, color: str) -> str:
+        def make_first_cell_line(
+            line: list[Cell],
+            previous_line: list[Cell],
+            path: list[Cell] | None,
+            color: str,
+        ) -> str:
             line_res: str = f"{color}█{Colors.end}"
             index: int = 0
             for cell, prev_cell in zip(line, previous_line):
                 if cell.north == 1:
-                    line_res += f'{color}▄▄▄▄{Colors.end}'
+                    line_res += f"{color}▄▄▄▄{Colors.end}"
                 elif path and cell in path and prev_cell in path:
                     line_res += f"{Colors.white}████{Colors.end}"
                 else:
-                    line_res += '    '
+                    line_res += "    "
                 if prev_cell.east == 1:
-                    line_res += f'{color}█{Colors.end}'
-                elif prev_cell.east == 0 and cell.east == 0 and cell.north == 0:
-                    line_res += ' '
+                    line_res += f"{color}█{Colors.end}"
+                elif (prev_cell.east == 0 and cell.east == 0
+                        and cell.north == 0):
+                    line_res += " "
                 else:
-                    line_res += f'{color}▄{Colors.end}'
+                    line_res += f"{color}▄{Colors.end}"
                 index += 1
             return line_res
 
-        def make_cell_middle_line(line_index: int, line: list[Cell],
-                                  color: str, color_42: str,
-                                  path: list[Cell] | None) -> str:
+        def make_cell_middle_line(
+            line_index: int,
+            line: list[Cell],
+            color: str,
+            color_42: str,
+            path: list[Cell] | None,
+        ) -> str:
             line_res: str = "█"
             index: int = 0
             for cell in line:
@@ -319,35 +361,40 @@ class MazeGenerator:
                     line_res += f"\u001b[0;37m████{color_end}"
                 elif index == config.exit_x and line_index == config.exit_y:
                     line_res += f"\u001b[0;31m████{color_end}"
-                elif (cell.west == 1 and cell.east == 1
-                      and cell.south == 1 and cell.north == 1):
+                elif (
+                    cell.west == 1
+                    and cell.east == 1
+                    and cell.south == 1
+                    and cell.north == 1
+                ):
                     line_res += f"{color_42}████{color_end}"
                 else:
-                    line_res += '    '
+                    line_res += "    "
                 if cell.east == 1:
                     line_res += f"{color}█"
                 elif path and cell in path and line[index + 1] in path:
                     line_res += f"{Colors.white}█{Colors.end}"
                 else:
-                    line_res += ' '
+                    line_res += " "
                 index += 1
             return line_res
 
         def make_last_line(line: list[Cell]) -> str:
-            line_res: str = '█'
+            line_res: str = "█"
             for cell in line:
-                line_res += '▄▄▄▄'
+                line_res += "▄▄▄▄"
                 if cell.east == 1:
-                    line_res += '█'
+                    line_res += "█"
                 else:
-                    line_res += '▄'
+                    line_res += "▄"
             return line_res
 
         color_end: str = "\u001b[0m"
         line_index: int = 0
 
-        for line_ in make_first_maze_line(maze[0], color, color_end,
-                                          color_42, path=path, config=config):
+        for line_ in make_first_maze_line(
+            maze[0], color, color_end, color_42, path=path, config=config
+        ):
             print(f"{color}{line_}{color_end}")
 
         index: int = 0
@@ -360,8 +407,14 @@ class MazeGenerator:
             line_index += 1
             for _ in range(2):
                 print(f"{color}", end="")
-                print(make_cell_middle_line(line_index, line, color,
-                                            color_42, path=path), end="")
+                print(
+                    make_cell_middle_line(line_index,
+                                          line,
+                                          color,
+                                          color_42,
+                                          path=path),
+                    end="",
+                )
                 print(f"{color_end}")
             index += 1
 
