@@ -1,10 +1,7 @@
-from MazeGen.generator import MazeGenerator
-from utils.models import Config, Grid
+from MazeGen.generator import MazeGenerator, Colors
+from utils.models import Config, Grid, Cell
 from random import choice
-from MazeGen.algo.dijkstras_solver import Dijkstras
-from MazeGen.algo.imperfection import imperfect_maze
-import os
-from MazeGen.generator import Colors
+import subprocess
 
 
 def menu_loop(config: Config) -> None:
@@ -13,31 +10,33 @@ def menu_loop(config: Config) -> None:
     draw_path: bool = False
 
     t = Colors
-    colors_list: list[str] = [t.yellow, t.green, t.blue, t.cyan,
-                              t.magenta]
+    colors_list: list[str] = [t.yellow, t.green, t.blue, t.cyan, t.magenta]
 
     color: str = Colors.yellow
     color_42: str = Colors.magenta
-    path = None
+    path: list[Cell] = []
+    maze_gen: MazeGenerator | None = None
+
+    def generate_maze() -> tuple[MazeGenerator, list[Cell]]:
+        gen = MazeGenerator(config=config, algorithm="kruskal", color=color,
+                            color_42=color_42, gen_time=gen_time)
+        path_tuple = gen.solve()
+        gen.make_imperfect(path_tuple[0])
+        gen.solution = None
+        gen.solution_str = None
+        path_tuple = gen.solve()
+        gen.create_output_file(path_tuple[1])
+        return gen, path_tuple[0][:-1]
 
     while True:
-        os.system('clear')
+        subprocess.run(["clear"], check=False)
 
         if flag_first:
-            maze_gen = MazeGenerator(config=config,
-                                     algorithm="kruskal",
-                                     color=color,
-                                     color_42=color_42,
-                                     gen_time=gen_time)
-            solver = Dijkstras(config, maze_gen)
-            path_tuple = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path_tuple[0])
-            path_tuple = solver.solve(is_new_maze=True)
-            maze_gen.create_output_file(path_tuple[1])
-            path = path_tuple[0][:-1]
+            maze_gen, path = generate_maze()
 
+        assert maze_gen is not None
         maze: Grid = maze_gen.grid
-        os.system('clear')
+        subprocess.run(["clear"], check=False)
         if draw_path:
             maze_gen.draw_maze(maze, config, color, color_42, path)
         else:
@@ -63,17 +62,16 @@ def menu_loop(config: Config) -> None:
               "height of maze    █")
         print("    █                                                          "
               "             █")
-        print("    █ 2: Change 42 color               6: Change seed          "
-              "             █")
+        print("    █ 2: Change 42 color               6: Change time maze creation"
+              "         █")
         print("    █                                                          "
               "             █")
-        print("    █ 3: Generate new maze             7: Change algo          "
-              "             █")
+        print("    █ 3: Generate new maze         "
+              "                                         █")
         print("    █                                                          "
               "             █")
         print("    █ 4: Show/Hide path (shortest)     "
-              "8: Change time maze creation"
-              "         █")
+              "                                     █")
         print("    █                                     "
               f"(current time: {gen_time})"
               "              █")
@@ -100,21 +98,10 @@ def menu_loop(config: Config) -> None:
             color_42 = new_color_42
 
         elif request == '3':
-            maze_gen = MazeGenerator(config=config, algorithm="kruskal",
-                                     color=color, color_42=color_42,
-                                     gen_time=gen_time)
-            solver = Dijkstras(config, maze_gen)
-            path_tuple = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path_tuple[0])
-            path_tuple = solver.solve(is_new_maze=True)
-            maze_gen.create_output_file(path_tuple[1])
-            path = path_tuple[0][:-1]
+            maze_gen, path = generate_maze()
 
         elif request == '4':
-            if draw_path:
-                draw_path = False
-            else:
-                draw_path = True
+            draw_path = not draw_path
 
         elif request == '5':
             print("")
@@ -134,65 +121,44 @@ def menu_loop(config: Config) -> None:
                     print(f"{request} is INVALID ! Need 1 OR 2")
                 request = input(f"{t.yellow} --->  {t.end}")
 
+            width: int | None = None
+            height: int | None = None
+
             if request == '1':
                 print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
                 print("    █                   █")
                 print("    █ ENTER NEW WIDTH:  █")
                 print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-                request = input(f"{t.yellow} --->  {t.end}")
-                try:
-                    request_int: int = int(request)
-                    if request_int < 9:
-                        raise ValueError
-                    width_valid: bool = True
-                except Exception:
-                    print(f"The input: {request} is not a number or"
-                          "not superieur to 8")
-                    width_valid = False
-
-                while not width_valid:
+                valid: bool = False
+                while not valid:
+                    request = input(f"{t.yellow} --->  {t.end}")
                     try:
-                        request = input(f"{t.yellow} --->  {t.end}")
-                        request_int = int(request)
-                        if request_int < 9:
+                        val = int(request)
+                        if val < 9:
                             raise ValueError
-                        width_valid = True
+                        width = val
+                        valid = True
                     except Exception:
                         print(f"The input: {request} is not a number or"
-                              "not superieur to 8")
-
-                width: int | None = int(request)
-                height: int | None = None
+                              " not superior to 8")
 
             elif request == '2':
                 print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
                 print("    █                   █")
                 print("    █ ENTER NEW HEIGHT: █")
                 print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-                request = input(f"{t.yellow} --->  {t.end}")
-                try:
-                    request_int = int(request)
-                    if request_int < 7:
-                        raise ValueError
-                    width_valid = True
-                except Exception:
-                    print(f"The input: {request} is not a number or"
-                          "not superieur to 6")
-                    width_valid = False
-
-                while not width_valid:
+                valid = False
+                while not valid:
+                    request = input(f"{t.yellow} --->  {t.end}")
                     try:
-                        request = input(f"{t.yellow} --->  {t.end}")
-                        request_int = int(request)
-                        if request_int < 9:
+                        val = int(request)
+                        if val < 7:
                             raise ValueError
-                        width_valid = True
+                        height = val
+                        valid = True
                     except Exception:
                         print(f"The input: {request} is not a number or"
-                              "not superieur to 8")
-
-                height = int(request)
-                width = None
+                              " not superior to 6")
 
             if height:
                 config.height = height
@@ -202,40 +168,18 @@ def menu_loop(config: Config) -> None:
                 config.exit_x = width - 1
             config.entry_x = 0
             config.entry_y = 0
-            maze_gen = MazeGenerator(config=config,
-                                     algorithm="kruskal", color=color,
-                                     color_42=color_42, gen_time=gen_time)
-            solver = Dijkstras(config, maze_gen)
-            path_tuple = solver.solve(is_new_maze=True)
-            imperfect_maze(maze_gen, config, path_tuple[0])
-            path_tuple = solver.solve(is_new_maze=True)
-            maze_gen.create_output_file(path_tuple[1])
-            path = path_tuple[0][:-1]
+            maze_gen, path = generate_maze()
 
         elif request == '6':
-            pass
-
-        elif request == '7':
-            pass
-
-        elif request == '8':
             print("    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
             print("    █                                  █")
             print("    █ ENTER NEW Time (ex = 0.05):      █")
             print("    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█")
-            request = input(f"{t.yellow} --->  {t.end}")
-            try:
-                request = request
-                width_valid = True
-            except Exception:
-                print(f"The input: {request} is not a number")
-                width_valid = False
-
-            while not width_valid:
+            valid = False
+            while not valid:
+                request = input(f"{t.yellow} --->  {t.end}")
                 try:
-                    request = input(f"{t.yellow} --->  {t.end}")
-                    request = request
-                    width_valid = True
+                    gen_time = float(request)
+                    valid = True
                 except Exception:
                     print(f"The input: {request} is not a number")
-            gen_time = float(request)
