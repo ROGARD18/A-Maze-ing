@@ -1,4 +1,4 @@
-from utils.models import Config, Grid, Cell
+from mazegen.models import Config, Grid, Cell
 from abc import abstractmethod, ABC
 import random
 
@@ -33,7 +33,7 @@ class MazeGenerator:
         self.solution_str: str | None = None
 
         if algorithm == "kruskal":
-            from MazeGen.algo.kruskal_algo import Kruskal
+            from mazegen.kruskal_algo import Kruskal
 
             self.maze = Kruskal(config)
             self.grid = self.maze.generate(

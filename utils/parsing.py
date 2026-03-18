@@ -1,5 +1,5 @@
 import sys
-from utils.models import NoArgumentError, Config
+from mazegen.models import NoArgumentError, Config
 from typing import Any
 
 

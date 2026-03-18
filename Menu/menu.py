@@ -1,5 +1,5 @@
-from MazeGen.generator import MazeGenerator, Colors
-from utils.models import Config, Grid, Cell
+from mazegen.generator import MazeGenerator, Colors
+from mazegen.models import Config, Grid, Cell
 from random import choice
 import subprocess
 

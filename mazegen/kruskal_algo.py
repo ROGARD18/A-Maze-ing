@@ -1,4 +1,4 @@
-from utils.models import Config, Cell, Maze, Grid
+from mazegen.models import Config, Cell, Maze, Grid
 import subprocess
 import time
 
@@ -116,7 +116,7 @@ class Kruskal(Maze):
                         if cell.set_id == bad_id:
                             cell.set_id = good_id
                 if animated:
-                    from MazeGen.generator import MazeGenerator
+                    from mazegen.generator import MazeGenerator
                     subprocess.run(["clear"], check=False)
                     MazeGenerator.draw_maze(grid, config, color,
                                             color_42, None)

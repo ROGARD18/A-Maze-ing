@@ -1,6 +1,6 @@
 from random import seed, random
 from pydantic import ValidationError
-from utils.models import Config
+from mazegen.models import Config
 from utils.check_dep import check_dep
 from utils.parsing import parsing
 from Menu.menu import menu_loop
