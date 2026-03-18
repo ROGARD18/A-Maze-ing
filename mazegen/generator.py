@@ -1,5 +1,4 @@
 from mazegen.models import Config, Grid, Cell
-from abc import abstractmethod, ABC
 import random
 
 
@@ -419,13 +418,3 @@ class MazeGenerator:
             index += 1
 
         print(f"{color}{make_last_line(list(maze[len(maze) - 1]))}{color_end}")
-
-
-class Solver(ABC):
-    @abstractmethod
-    def __init__(self, config: Config, maze: MazeGenerator) -> None:
-        pass
-
-    @abstractmethod
-    def solve(self, is_new_maze: bool) -> tuple[list[Cell], str]:
-        pass
