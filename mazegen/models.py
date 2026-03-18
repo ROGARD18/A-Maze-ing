@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from pydantic import model_validator, ConfigDict
-from typing_extensions import Self, Optional
+from typing import Self, Optional
 from abc import ABC, abstractmethod
 
 
