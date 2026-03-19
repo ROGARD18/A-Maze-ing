@@ -27,6 +27,7 @@ def main() -> None:
             print("Seed should be an integer or a float number")
             return
         print(f"{type(e).__name__}: {e}")
+        print("FINISH !")
         return
     if config.seed:
         seed(float(config.seed))
