@@ -34,7 +34,11 @@ def menu_loop(config: Config) -> None:
         if flag_first:
             maze_gen, path = generate_maze()
 
-        assert maze_gen is not None
+        try:
+            assert maze_gen is not None
+        except AssertionError as e:
+            print(e)
+            return
         maze: Grid = maze_gen.grid
         subprocess.run(["clear"], check=False)
         if draw_path:
